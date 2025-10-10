@@ -97,9 +97,19 @@ public class PacienteServiceImp implements PacienteService{
 	 *  - EXECUTE()
 	 */
 	@Override
-	public void eliminar(Integer id) {
-	    dsl.deleteFrom(Pacientes.PACIENTES)
-	       .where(Pacientes.PACIENTES.ID.eq(id))
-	       .execute();
+	public boolean eliminar(Integer id) {
+//	    dsl.deleteFrom(Pacientes.PACIENTES)
+//	       .where(Pacientes.PACIENTES.ID.eq(id))
+//	       .execute();
+		
+		
+		var record = dsl.fetchOne(Pacientes.PACIENTES, Pacientes.PACIENTES.ID.eq(id));
+		
+		if (record != null) {
+			record.delete();
+			return true;
+		}
+		
+		return false;
 	}
 }

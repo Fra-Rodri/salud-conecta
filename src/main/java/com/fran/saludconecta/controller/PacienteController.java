@@ -1,6 +1,9 @@
 package com.fran.saludconecta.controller;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fran.saludconecta.dto.ErrorResponse;
 import com.fran.saludconecta.dto.PacienteDTO;
 import com.fran.saludconecta.service.PacienteService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /*
  * FALTA SABER:
@@ -83,9 +89,27 @@ public class PacienteController {
 	 * - @RESPONSE ENTITY.NO CONTENT
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
-		pacienteService.eliminar(id);
-		return ResponseEntity.noContent().build();
+	public ResponseEntity<?> eliminar(@PathVariable Integer id, HttpServletRequest request) {
+//		pacienteService.eliminar(id);
+//		return ResponseEntity.noContent().build();
+		
+		boolean eliminado = pacienteService.eliminar(id);
+		
+		if (eliminado) {
+			return ResponseEntity.noContent().build();
+		} else {
+//			Map<String, String> error = new HashMap<>();
+//			error.put("error", "Paciente con ID " + id + " no encontrado");
+//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+			
+			ErrorResponse error = ErrorResponse.builder()
+					.timeStamp(LocalDateTime.now())
+					.status(HttpStatus.NOT_FOUND.value())
+					.error("Not Found")
+					.message("Paciente con ID " + id + " no encontrado")
+					.path(request.getRequestURI())
+					.build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+		}
 	}
-	
 }

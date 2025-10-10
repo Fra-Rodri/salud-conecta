@@ -9,5 +9,5 @@ public interface PacienteService {
 	PacienteDTO obtenerPorId(Integer id);
 	PacienteDTO crear(PacienteDTO dto);
 	PacienteDTO actualizar(Integer id, PacienteDTO dto);
-	void eliminar(Integer id);
+	boolean eliminar(Integer id);
 }
