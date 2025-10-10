@@ -10,3 +10,8 @@ spring:
 
   jooq:
     sql-dialect: POSTGRES
+
+  security:
+    user:
+      name: user
+      password: user
