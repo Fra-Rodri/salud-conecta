@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: SaludConecta
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/saludconectadb
+    username: frarod
+    password: frarod
+    driver-class-name: org.postgresql.Driver
+
+  jooq:
+    sql-dialect: POSTGRES
