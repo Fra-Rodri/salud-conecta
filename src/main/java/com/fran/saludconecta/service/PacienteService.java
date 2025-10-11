@@ -5,9 +5,9 @@ import java.util.List;
 import com.fran.saludconecta.dto.PacienteDTO;
 
 public interface PacienteService {
-	List<PacienteDTO> listarTodos();
-	PacienteDTO obtenerPorId(Integer id);
-	PacienteDTO crear(PacienteDTO dto);
-	PacienteDTO actualizar(Integer id, PacienteDTO dto);
-	boolean eliminar(Integer id);
+	List<PacienteDTO> mostrarTodos();
+	PacienteDTO mostrarPorId(Integer id);
+	boolean crear(PacienteDTO dto);
+	PacienteDTO modificar(Integer id, PacienteDTO dto);
+	boolean borrar(Integer id);
 }

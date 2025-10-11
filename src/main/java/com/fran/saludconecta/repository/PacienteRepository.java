@@ -16,27 +16,34 @@ public class PacienteRepository {
 	@Autowired
     private DSLContext dsl;
 
-    public List<PacientesRecord> findAll() {
+    public List<PacientesRecord> obtenerTodos() {
         return dsl.selectFrom(Pacientes.PACIENTES).fetch();
     }
 
-    public PacientesRecord findById(Integer id) {
+    public PacientesRecord obtenerPorId(Integer id) {
         return dsl.selectFrom(Pacientes.PACIENTES)
                   .where(Pacientes.PACIENTES.ID.eq(id))
                   .fetchOne();
     }
 
-    public PacientesRecord save(PacienteDTO dto) {
-        var record = dsl.newRecord(Pacientes.PACIENTES);
-        record.setNombre(dto.getNombre());
-        record.setDni(dto.getDni());
-        record.setFechaNacimiento(dto.getFechaNacimiento());
+//    public PacientesRecord guardar(PacienteDTO dto) {
+//    	PacientesRecord record = dsl.newRecord(Pacientes.PACIENTES);
+//        record.setNombre(dto.getNombre());
+//        record.setDni(dto.getDni());
+//        record.setFechaNacimiento(dto.getFechaNacimiento());
+//        record.store();
+//        return record;
+//    }
+    
+    public PacientesRecord guardar(PacientesRecord guardarRecord) {
+    	PacientesRecord record = dsl.newRecord(Pacientes.PACIENTES);
+        record = guardarRecord;
         record.store();
         return record;
     }
 
-    public boolean delete(Integer id) {
-        var record = findById(id);
+    public boolean eliminar(Integer id) {
+        var record = obtenerPorId(id);
         if (record != null) {
             record.delete();
             return true;
@@ -44,8 +51,8 @@ public class PacienteRepository {
         return false;
     }
 
-    public PacientesRecord update(Integer id, PacienteDTO dto) {
-        var record = findById(id);
+    public PacientesRecord actualizar(Integer id, PacienteDTO dto) {
+        var record = obtenerPorId(id);
         if (record != null) {
             record.setNombre(dto.getNombre());
             record.setDni(dto.getDni());

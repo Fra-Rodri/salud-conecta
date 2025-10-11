@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fran.saludconecta.dto.PacienteDTO;
-import com.fran.saludconecta.jooq.tables.Pacientes;
+import com.fran.saludconecta.jooq.tables.records.PacientesRecord;
 import com.fran.saludconecta.mapper.PacienteMapper;
 import com.fran.saludconecta.repository.PacienteRepository;
 import com.fran.saludconecta.service.PacienteService;
@@ -15,8 +15,8 @@ import com.fran.saludconecta.service.PacienteService;
 @Service
 public class PacienteServiceImp implements PacienteService{
 
-//	@Autowired
-//	private DSLContext dsl;
+	@Autowired
+	private DSLContext dsl;
 //	
 //	/*
 //	 * FALTA SABER:
@@ -122,33 +122,40 @@ public class PacienteServiceImp implements PacienteService{
 	    private PacienteRepository repository;
 
 	    @Override
-	    public List<PacienteDTO> listarTodos() {
-	        return repository.findAll()
+	    public List<PacienteDTO> mostrarTodos() {
+	        return repository.obtenerTodos()
 	                         .stream()
 	                         .map(PacienteMapper::toDTO)
 	                         .toList();
 	    }
 
 	    @Override
-	    public PacienteDTO obtenerPorId(Integer id) {
-	        return PacienteMapper.toDTO(repository.findById(id));
+	    public PacienteDTO mostrarPorId(Integer id) {
+	        return PacienteMapper.toDTO(repository.obtenerPorId(id));
 	    }
 
 	    @Override
-	    public PacienteDTO crear(PacienteDTO dto) {
-	        var record = repository.save(dto);
-	        dto.setId(record.getId());
-	        return dto;
+	    public boolean crear(PacienteDTO dto) {
+	    	PacientesRecord guardarRecord = PacienteMapper.fromDTO(dto, dsl);
+	    	PacientesRecord comprobarRecord = repository.obtenerPorId(guardarRecord.getId());
+	    	
+	    	if (comprobarRecord == null) {
+	    		repository.guardar(guardarRecord);
+		        dto.setId(guardarRecord.getId());
+		        return true;
+	    	} 
+	    	
+	        return false;
 	    }
 
 	    @Override
-	    public PacienteDTO actualizar(Integer id, PacienteDTO dto) {
-	        var record = repository.update(id, dto);
+	    public PacienteDTO modificar(Integer id, PacienteDTO dto) {
+	        var record = repository.actualizar(id, dto);
 	        return PacienteMapper.toDTO(record);
 	    }
 
 	    @Override
-	    public boolean eliminar(Integer id) {
-	        return repository.delete(id);
+	    public boolean borrar(Integer id) {
+	        return repository.eliminar(id);
 	    }
 }

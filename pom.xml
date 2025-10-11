@@ -2,98 +2,136 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<!-- Versión del modelo POM -->
 	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Hereda configuración base de Spring Boot -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.5.6</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath /> <!-- Busca el padre en el repositorio -->
 	</parent>
+
+	<!-- Datos del proyecto -->
 	<groupId>com.fran</groupId>
 	<artifactId>salud-conecta</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>SaludConecta</name>
-	<description>Gestión clínica </description>
-	<url />
-	<licenses>
-		<license />
-	</licenses>
-	<developers>
-		<developer />
-	</developers>
-	<scm>
-		<connection />
-		<developerConnection />
-		<tag />
-		<url />
-	</scm>
+	<description>Gestión clínica</description>
+
+	<!-- Propiedades globales -->
 	<properties>
-		<java.version>21</java.version>
+		<java.version>21</java.version> <!-- Versión de Java usada -->
 	</properties>
+
+	<!-- Dependencias necesarias -->
 	<dependencies>
+
+		<!-- Acceso a base de datos con JDBC -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jdbc</artifactId>
 		</dependency>
+
+		<!-- Seguridad con Spring Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+
+		<!-- Motor de plantillas Thymeleaf -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+
+		<!-- Web: controladores REST, JSON, etc. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<!-- Integración de Thymeleaf con Spring Security -->
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
 		</dependency>
 
+		<!-- Recarga automática en desarrollo -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+
+		<!-- Driver de PostgreSQL -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
+		<!-- Lombok para reducir boilerplate -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+
+		<!-- Pruebas unitarias con Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Pruebas de seguridad -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- jOOQ: DSL para SQL -->
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
 		</dependency>
+
+		<!-- jOOQ: acceso a metadatos de la base de datos -->
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq-meta</artifactId>
 		</dependency>
+
+		<!-- jOOQ: generación de código -->
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq-codegen</artifactId>
 		</dependency>
+
+		<!-- API de validación (anotaciones como @NotBlank, @Size...) -->
+		<dependency>
+		    <groupId>jakarta.validation</groupId>
+		    <artifactId>jakarta.validation-api</artifactId>
+		</dependency>
+
+		<!-- Starter para activar validación en Spring Boot -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
 	</dependencies>
 
+	<!-- Configuración de compilación -->
 	<build>
 		<plugins>
+
+			<!-- Plugin para compilar con soporte de anotaciones (Lombok) -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -106,6 +144,8 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+
+			<!-- Plugin para empaquetar como aplicación Spring Boot -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -118,6 +158,8 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<!-- Plugin para generar clases jOOQ desde la base de datos -->
 			<plugin>
 				<groupId>org.jooq</groupId>
 				<artifactId>jooq-codegen-maven</artifactId>
@@ -131,15 +173,13 @@
 						<configuration>
 							<jdbc>
 								<driver>org.postgresql.Driver</driver>
-								<url>
-									jdbc:postgresql://localhost:5432/saludconectadb</url>
+								<url>jdbc:postgresql://localhost:5432/saludconectadb</url>
 								<user>frarod</user>
 								<password>frarod</password>
 							</jdbc>
 							<generator>
 								<database>
-									<name>
-										org.jooq.meta.postgres.PostgresDatabase</name>
+									<name>org.jooq.meta.postgres.PostgresDatabase</name>
 									<inputSchema>clinica</inputSchema>
 								</database>
 								<target>
@@ -151,6 +191,7 @@
 					</execution>
 				</executions>
 			</plugin>
+
 		</plugins>
 	</build>
 

@@ -60,7 +60,7 @@ public class VistaController {
     
     @GetMapping("/pacientes2")
     public String pacientes(Model model) {
-    	List<PacienteDTO> lista = pacienteService.listarTodos();
+    	List<PacienteDTO> lista = pacienteService.mostrarTodos();
 		model.addAttribute("pacientes", lista);
         return "pacientes2";
     }
