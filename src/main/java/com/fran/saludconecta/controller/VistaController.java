@@ -13,6 +13,18 @@ import com.fran.saludconecta.service.PacienteService;
 
 @Controller
 public class VistaController {
+	
+	@Autowired
+	private PacienteService pacienteService;
+	//[VistaController] → usa → PacienteService → accede a datos → pasa al modelo → muestra HTML
+	
+	
+	/*
+	 * Estos métodos son los iniciales
+	 * usando vistas simples antes de css y js
+	 * Lo que hacen son siempre lo mismo, 
+	 * busca su return "login" por ejemplo en "/templates"
+	 */
 
 //	@GetMapping("/")
 //    public String redirigirAlLogin() {
@@ -29,8 +41,7 @@ public class VistaController {
 //        return "inicio";
 //    }
 	
-	@Autowired
-	private PacienteService pacienteService;
+	
 	
 	@GetMapping("/")
     public String redirigirAlLogin() {

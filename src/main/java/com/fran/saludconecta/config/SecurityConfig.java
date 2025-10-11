@@ -6,51 +6,43 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
-@EnableWebSecurity
+@Configuration // Indica que esta clase contiene configuración para Spring
+@EnableWebSecurity // Activa Spring Security en la aplicación web
 public class SecurityConfig {
-	
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//		http
-//        .csrf().disable() // ← esto permite POST sin token CSRF
-//        .authorizeHttpRequests(auth -> auth
-//            .anyRequest().authenticated()
-//        )
-//        .httpBasic(); // ← mantiene autenticación básica
-		
-//		http
-//	    .csrf().disable()
-//	    .authorizeHttpRequests(auth -> auth
-//	        .requestMatchers("/login", "/css/**", "/js/**").permitAll()
-//	        .anyRequest().authenticated()
-//	    )
-//	    .formLogin(form -> form
-//	        .loginPage("/login")
-//	        .defaultSuccessUrl("/inicio", true)
-//	        .permitAll()
-//	    )
-//	    .logout(logout -> logout
-//	        .logoutSuccessUrl("/login?logout")
-//	    );
-		
-		http
-        .csrf().disable()
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/login2", "/css/**", "/js/**").permitAll()
-            .anyRequest().authenticated()
-        )
-        .formLogin(form -> form
-            .loginPage("/login2") // ← usa login2 como vista personalizada
-            .loginProcessingUrl("/login") // ← esto también es clave
-            .defaultSuccessUrl("/inicio2", true) // ← redirige tras login exitoso
-            .permitAll()
-        )
-        .logout(logout -> logout
-            .logoutSuccessUrl("/login2?logout") // ← redirige tras logout
-        );
 
-		return http.build();
-	}
+    @Bean // Spring usará este método para construir el filtro de seguridad
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+        http
+            .csrf().disable() // Desactiva la protección CSRF (útil en desarrollo o si no usas tokens en formularios)
+
+            .authorizeHttpRequests(auth -> auth
+                // Estas rutas se permiten sin autenticación:
+                .requestMatchers("/login2", "/css/**", "/js/**").permitAll()
+                // Todas las demás rutas requieren estar autenticado
+                .anyRequest().authenticated()
+            )
+            
+            .formLogin(form -> form
+                // Vista personalizada de login
+                .loginPage("/login2")
+                // URL que procesa el formulario de login (debe coincidir con th:action en login2.html)
+                .loginProcessingUrl("/login")
+                // Redirección tras login exitoso
+                .defaultSuccessUrl("/inicio2", true)
+                // Permite que todos accedan al formulario de login
+                .permitAll()
+            )
+
+            .logout(logout -> logout
+                // Redirección tras cerrar sesión
+                .logoutSuccessUrl("/login2?logout")
+            )
+            
+            .httpBasic() // ✅ esto permite autenticación básica para Postman, curl, etc.
+            ;
+
+        // Devuelve la configuración construida
+        return http.build();
+    }
 }

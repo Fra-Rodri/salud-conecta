@@ -1,10 +1,7 @@
 package com.fran.saludconecta.controller;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,70 +21,66 @@ import com.fran.saludconecta.service.PacienteService;
 import jakarta.servlet.http.HttpServletRequest;
 
 /*
- * FALTA SABER:
- * 
- *  - @REST CONTROLLER
- *  - @REQUEST MAPPING
+ * Indican el tipo de petición HTTP
  *  - @GET MAPPING
  *  - @POST MAPPING
  *  - @PUT MAPPING
  *  - @DELETE MAPPING
+ *  
+ *  ResponseEntity.ok(...): devuelve respuesta HTTP 200 con cuerpo.
+ *  ResponseEntity.status(HttpStatus.CREATED).body(...): devuelve 201 con el nuevo objeto.
+ *  ResponseEntity.noContent().build(): devuelve 204 sin cuerpo (usado tras eliminar).
  */
 
-@RestController
-@RequestMapping("/pacientes")
+@RestController // combina @Controller + @ResponseBody, por eso devuelve JSON directamente.
+@RequestMapping("/pacientes") // prefijo común para todas las rutas.
 public class PacienteController {
 	
 	@Autowired
 	private PacienteService pacienteService;
+	// [PacienteController] → usa → PacienteService → accede a datos → devuelve JSON
 	
 	@GetMapping
 	public List<PacienteDTO> listarTodos() {
 		return pacienteService.listarTodos();
 	}
 	
-	/*
-	 * AQUI ME FALTA SABER QUE ES :
-	 * 
-	 * - RESPONSE ENTITY.OK, 
-	 * - @PATH VARIABLE,
-	 * - RETURN CON TERNARIA
-	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<PacienteDTO> obtener(@PathVariable Integer id) {
-		var paciente = pacienteService.obtenerPorId(id);
-		return paciente != null ? ResponseEntity.ok(paciente) : ResponseEntity.notFound().build();
+	public ResponseEntity<?> obtener(@PathVariable Integer id, HttpServletRequest request) { // @PathVariable extrae el valor id de la url
+//		var paciente = pacienteService.obtenerPorId(id);
+//		return paciente != null ? ResponseEntity.ok(paciente) : ResponseEntity.notFound().build();
+		
+		PacienteDTO pacienteEncontrado = pacienteService.obtenerPorId(id);
+		
+		if (pacienteEncontrado != null) {
+			return ResponseEntity.ok(pacienteEncontrado);
+		} else {
+			ErrorResponse error = ErrorResponse.builder()
+					.timeStamp(LocalDateTime.now())
+					.status(HttpStatus.NOT_FOUND.value())
+					.error("Not Found")
+					.message("Paciente con ID " + id + " no encontrado")
+					.path(request.getRequestURI())
+					.build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+		}
 	}
 	
-	/*
-	 * AQUI ME FALTA SABER QUE ES :
-	 * 
-	 * - RESPONSE ENTITY.STATUS, 
-	 * - HTTP STATUS.CREATED,
-	 */
+
 	@PostMapping
-	public ResponseEntity<PacienteDTO> crear (@RequestBody PacienteDTO dto){
+	public ResponseEntity<PacienteDTO> crear (@RequestBody PacienteDTO dto){ // @RequestBody convierte el JSON recibido en un objeto Java.
 		var creado = pacienteService.crear(dto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(creado);
 	}
 	
-	/*
-	 * AQUI ME FALTA SABER QUE ES :
-	 * 
-	 * - @PATH VARIABLE,
-	 * - @REQUEST BODY
-	 */
+
 	@PutMapping("/{id}")
 	public ResponseEntity<PacienteDTO> actualizar(@PathVariable Integer id, @RequestBody PacienteDTO dto) {
 		var actualizado = pacienteService.actualizar(id, dto);
 		return actualizado != null ? ResponseEntity.ok(actualizado) : ResponseEntity.notFound().build();
 	}
 	
-	/*
-	 * AQUI ME FALTA SABER QUE ES :
-	 * 
-	 * - @RESPONSE ENTITY.NO CONTENT
-	 */
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> eliminar(@PathVariable Integer id, HttpServletRequest request) {
 //		pacienteService.eliminar(id);
