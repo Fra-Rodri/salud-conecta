@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.fran.saludconecta.dto.PacienteDTO;
-import com.fran.saludconecta.jooq.tables.Pacientes;
-import com.fran.saludconecta.jooq.tables.records.PacientesRecord;
+import com.fran.saludconecta.jooq.tables.Paciente;
+import com.fran.saludconecta.jooq.tables.records.PacienteRecord;
 
 @Repository
 public class PacienteRepository {
@@ -16,27 +16,18 @@ public class PacienteRepository {
 	@Autowired
     private DSLContext dsl;
 
-    public List<PacientesRecord> obtenerTodos() {
-        return dsl.selectFrom(Pacientes.PACIENTES).fetch();
+    public List<PacienteRecord> obtenerTodos() {
+        return dsl.selectFrom(Paciente.PACIENTE).fetch();
     }
 
-    public PacientesRecord obtenerPorId(Integer id) {
-        return dsl.selectFrom(Pacientes.PACIENTES)
-                  .where(Pacientes.PACIENTES.ID.eq(id))
+    public PacienteRecord obtenerPorId(Integer id) {
+        return dsl.selectFrom(Paciente.PACIENTE)
+                  .where(Paciente.PACIENTE.ID.eq(id))
                   .fetchOne();
     }
-
-//    public PacientesRecord guardar(PacienteDTO dto) {
-//    	PacientesRecord record = dsl.newRecord(Pacientes.PACIENTES);
-//        record.setNombre(dto.getNombre());
-//        record.setDni(dto.getDni());
-//        record.setFechaNacimiento(dto.getFechaNacimiento());
-//        record.store();
-//        return record;
-//    }
     
-    public PacientesRecord guardar(PacientesRecord guardarRecord) {
-    	PacientesRecord record = dsl.newRecord(Pacientes.PACIENTES);
+    public PacienteRecord guardar(PacienteRecord guardarRecord) {
+    	PacienteRecord record = dsl.newRecord(Paciente.PACIENTE);
         record = guardarRecord;
         record.store();
         return record;
@@ -51,7 +42,7 @@ public class PacienteRepository {
         return false;
     }
 
-    public PacientesRecord actualizar(Integer id, PacienteDTO dto) {
+    public PacienteRecord actualizar(Integer id, PacienteDTO dto) {
         var record = obtenerPorId(id);
         if (record != null) {
             record.setNombre(dto.getNombre());

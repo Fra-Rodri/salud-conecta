@@ -3,29 +3,29 @@ package com.fran.saludconecta.mapper;
 import org.jooq.DSLContext;
 
 import com.fran.saludconecta.dto.PacienteDTO;
-import com.fran.saludconecta.jooq.tables.Pacientes;
-import com.fran.saludconecta.jooq.tables.records.PacientesRecord;
+import com.fran.saludconecta.jooq.tables.Paciente;
+import com.fran.saludconecta.jooq.tables.records.PacienteRecord;
 
 public class PacienteMapper {
 
-	public static PacienteDTO toDTO(PacientesRecord record) {
+	public static PacienteDTO toDTO(PacienteRecord record) {
 		
         if (record == null) return null;
         
         return PacienteDTO.builder()
-                .id(record.get(Pacientes.PACIENTES.ID))
-                .nombre(record.get(Pacientes.PACIENTES.NOMBRE))
-                .dni(record.get(Pacientes.PACIENTES.DNI))
-                .fechaNacimiento(record.get(Pacientes.PACIENTES.FECHA_NACIMIENTO))
+                .id(record.get(Paciente.PACIENTE.ID))
+                .nombre(record.get(Paciente.PACIENTE.NOMBRE))
+                .dni(record.get(Paciente.PACIENTE.DNI))
+                .fechaNacimiento(record.get(Paciente.PACIENTE.FECHA_NACIMIENTO))
                 .build();
     }
 	
-	public static PacientesRecord fromDTO(PacienteDTO dto, DSLContext dsl) {
+	public static PacienteRecord fromDTO(PacienteDTO dto, DSLContext dsl) {
 		
 		if (dto == null) return null;
 		
-		PacientesRecord record = dsl.newRecord(Pacientes.PACIENTES);
-		record.setId(dto.getId());
+		PacienteRecord record = dsl.newRecord(Paciente.PACIENTE);
+//		record.setId(dto.getId());
 		record.setNombre(dto.getNombre());
 		record.setDni(dto.getDni());
 		record.setFechaNacimiento(dto.getFechaNacimiento());

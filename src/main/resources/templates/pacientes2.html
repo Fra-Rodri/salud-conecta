@@ -52,6 +52,11 @@
     </header>
 
     <main class="container mt-5">
+		<div class="text-end mb-4">
+		    <a th:href="@{/pacientes2/crear}" class="btn btn-success">
+		        <i class="fas fa-user-plus"></i> Nuevo Paciente
+		    </a>
+		</div>
         <h2 class="text-center mb-4">
             <i class="fas fa-user-injured me-2 text-primary"></i>Listado de Pacientes
         </h2>
@@ -73,10 +78,10 @@
                     <td th:text="${paciente.dni}"></td>
                     <td th:text="${#temporals.format(paciente.fechaNacimiento, 'dd/MM/yyyy')}"></td>
                     <td class="text-center">
-                        <a th:href="@{'/pacientes/editar/' + ${paciente.id}}" class="btn btn-sm btn-outline-primary me-1">
+                        <a th:href="@{'/pacientes2/editar/' + ${paciente.id}}" class="btn btn-sm btn-outline-primary me-1">
                             <i class="fas fa-edit"></i> Editar
                         </a>
-                        <a th:href="@{'/pacientes/eliminar/' + ${paciente.id}}" class="btn btn-sm btn-outline-danger">
+                        <a th:href="@{'/pacientes2/eliminar/' + ${paciente.id}}" class="btn btn-sm btn-outline-danger">
                             <i class="fas fa-trash-alt"></i> Eliminar
                         </a>
                     </td>
