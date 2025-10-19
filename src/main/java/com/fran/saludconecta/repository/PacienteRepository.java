@@ -17,7 +17,7 @@ public class PacienteRepository {
     private DSLContext dsl;
 
     public List<PacienteRecord> obtenerTodos() {
-        return dsl.selectFrom(Paciente.PACIENTE).fetch();
+        return dsl.selectFrom(Paciente.PACIENTE).orderBy(Paciente.PACIENTE.NOMBRE).fetch();
     }
 
     public PacienteRecord obtenerPorId(Integer id) {

@@ -26,8 +26,8 @@ public class PacienteMapper {
 		
 		PacienteRecord record = dsl.newRecord(Paciente.PACIENTE);
 //		record.setId(dto.getId());
-		record.setNombre(dto.getNombre());
-		record.setDni(dto.getDni());
+		record.setNombre(dto.getNombre().trim());
+		record.setDni(dto.getDni().trim());
 		record.setFechaNacimiento(dto.getFechaNacimiento());
 		return record;
 	}
