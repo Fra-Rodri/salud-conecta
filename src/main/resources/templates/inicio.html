@@ -36,13 +36,8 @@
         <nav class="me-3">
             <a th:href="@{/inicio}"><i class="fas fa-home"></i> Inicio</a>
             <a th:href="@{/pacientes}"><i class="fas fa-user-injured"></i> Pacientes</a>
-			<a th:href="@{/calendario}" class="btn btn-outline-primary">
-			    <i class="fas fa-calendar-alt"></i> Calendario
-			</a>
-            <form th:action="@{/logout}" method="post">
-                <button class="btn btn-sm btn-outline-light" type="submit">
-                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-                </button>
+            <a th:href="@{/informes-lista}"><i class="fas fa-laptop-file"></i> Informes</a>
+            <form th:action="@{/logout}" method="post"><button class="btn btn-sm btn-outline-light" type="submit"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
             </form>
         </nav>
     </header>
@@ -50,9 +45,8 @@
     <main class="container mt-5 text-center">
         <h2><i class="fas fa-user-md me-2"></i>Bienvenido a SaludConecta</h2>
         <p class="lead">Has iniciado sesión correctamente.</p>
-        <a th:href="@{/pacientes}" class="btn btn-primary mt-3">
-            <i class="fas fa-user-injured"></i> Ver pacientes
-        </a>
+        <a th:href="@{/pacientes}" class="btn btn-primary mt-3"><i class="fas fa-user-injured"></i> Ver pacientes</a>
+        <a th:href="@{/informes-lista}" class="btn btn-primary mt-3"><i class="fas fa-laptop-file"></i> Ver informes</a>
     </main>
 
     <footer>
@@ -60,6 +54,5 @@
         <p>&copy; 2025 SaludConecta</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

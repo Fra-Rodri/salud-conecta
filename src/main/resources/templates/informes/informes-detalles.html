@@ -49,46 +49,36 @@
 	    </nav>
 	</header>
 
-    <main class="container mt-5">
-		<div class="text-end mb-4">
-		    <a th:href="@{/pacientes/crear}" class="btn btn-success">
-		        <i class="fas fa-user-plus"></i> Nuevo Paciente
-		    </a>
-		</div>
-        <h2 class="text-center mb-4">
-            <i class="fas fa-user-injured me-2 text-primary"></i>Listado de Pacientes
-        </h2>
+	<main class="container mt-5">
+	    <div class="card shadow-sm mx-auto" style="max-width: 700px;">
+	        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+	            <h4 class="mb-0">
+	                <i class="fas fa-file-medical me-2"></i>Informe Clínico
+	            </h4>
+	            <span class="badge bg-light text-dark">
+	                <i class="fas fa-calendar-alt me-1"></i>
+	                <span th:text="${elemento.fechaCreacion}">Fecha</span>
+	            </span>
+	        </div>
 
-        <table class="table table-bordered table-hover table-striped">
-            <thead class="text-center">
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>DNI</th>
-                    <th>Fecha de Nacimiento</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="paciente : ${pacientes}">
-                    <td th:text="${paciente.id}"></td>
-                    <td th:text="${paciente.nombre}"></td>
-                    <td th:text="${paciente.dni}"></td>
-                    <td th:text="${paciente.fechaNacimiento}"></td>
-                    <td class="text-center">
-						<a th:href="@{'/pacientes/ver/' + ${paciente.id}}" class="btn btn-sm btn-success me-1">
-						    <i class="fas fa-eye"></i> Ver
-                        <a th:href="@{'/pacientes/editar/' + ${paciente.id}}" class="btn btn-sm btn-outline-primary me-1">
-                            <i class="fas fa-edit"></i> Editar
-                        </a>
-                        <a th:href="@{'/pacientes/eliminar/' + ${paciente.id}}" class="btn btn-sm btn-outline-danger">
-                            <i class="fas fa-trash-alt"></i> Eliminar
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </main>
+	        <div class="card-body">
+	            <p><strong>Paciente:</strong> <span th:text="${elemento.nombrePaciente}">Nombre</span></p>
+	            <p><strong>Usuario:</strong> <span th:text="${elemento.nombreUsuario}">Usuario</span></p>
+	            <hr/>
+	            <h5 class="text-secondary"><i class="fas fa-notes-medical me-2"></i>Contenido del informe</h5>
+	            <p class="mt-3" th:text="${elemento.contenido}">Texto del informe</p>
+	        </div>
+
+	        <div class="card-footer text-end">
+	            <a th:href="@{/informes-lista}" class="btn btn-secondary">
+	                <i class="fas fa-arrow-left"></i> Volver al listado
+	            </a>
+	            <a th:href="@{'/informes/editar/' + ${elemento.id}}" class="btn btn-outline-primary ms-2">
+	                <i class="fas fa-edit"></i> Editar
+	            </a>
+	        </div>
+	    </div>
+	</main>
 
     <footer>
         <hr/>

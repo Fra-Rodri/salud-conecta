@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fran.saludconecta.dto.ErrorResponse;
 import com.fran.saludconecta.dto.PacienteDTO;
+import com.fran.saludconecta.dto.PacienteDetallesDTO;
 import com.fran.saludconecta.service.PacienteService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -55,11 +56,11 @@ import jakarta.validation.Valid;
 public class PacienteController {
 	
 	@Autowired
-	private PacienteService pacienteService; // [PacienteController] → usa → PacienteService → accede a datos → devuelve JSON
+	private PacienteService service; // [PacienteController] → usa → PacienteService → accede a datos → devuelve JSON
 	
 	@GetMapping
 	public ResponseEntity<?> listarTodos(HttpServletRequest request) {
-		List<PacienteDTO> listaPacientes = pacienteService.mostrarTodos();
+		List<PacienteDTO> listaPacientes = service.mostrarTodos();
 		
 		if (!listaPacientes.isEmpty()) {
 			return ResponseEntity.ok(listaPacientes); // 200 OK con lista
@@ -71,7 +72,7 @@ public class PacienteController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> obtener(@PathVariable Integer id, HttpServletRequest request) { 
-		PacienteDTO pacienteEncontrado = pacienteService.mostrarPorId(id);
+		PacienteDTO pacienteEncontrado = service.mostrarPorId(id);
 		
 		if (pacienteEncontrado != null) {
 			return ResponseEntity.ok(pacienteEncontrado);
@@ -94,7 +95,7 @@ public class PacienteController {
 		
 		} else {
 			
-			pacienteService.crear(dto);
+			service.crear(dto);
 			return ResponseEntity.status(HttpStatus.CREATED).body(dto);
 		}		
 	}
@@ -109,15 +110,27 @@ public class PacienteController {
 			
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 		} else {
-			Boolean existe = pacienteService.mostrarTodos().stream().anyMatch(p -> p.getId().equals(id));
+			Boolean existe = service.mostrarTodos().stream().anyMatch(p -> p.getId().equals(id));
 			
 			if (!existe) {
 				ErrorResponse error = mostrarError(request, HttpStatus.BAD_REQUEST, "Paciente con ID " + id + " no encontrado");
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 			} else {
-				PacienteDTO actualizarPaciente = pacienteService.modificar(id, dto);
+				PacienteDTO actualizarPaciente = service.modificar(id, dto);
 				return ResponseEntity.ok(actualizarPaciente);
 			}
+		}
+	}
+	
+	@GetMapping("detalles/{id}")
+	public ResponseEntity<?> detallesPaciente(@PathVariable Integer id, HttpServletRequest request) { 
+		PacienteDetallesDTO detallesDTO = service.mostrarDetallesPorId(id);
+		
+		if (detallesDTO != null) {
+			return ResponseEntity.ok(detallesDTO);
+		} else {
+			ErrorResponse error = mostrarError(request, HttpStatus.OK, "ID " + id + " no encontrado");
+			return ResponseEntity.status(HttpStatus.OK).body(error);
 		}
 	}
 	
@@ -135,7 +148,7 @@ public class PacienteController {
 
 	@DeleteMapping("/eliminar")
 	public ResponseEntity<?> eliminar(@RequestParam Integer id, HttpServletRequest request) {
-		boolean pacienteEliminado = pacienteService.borrar(id);
+		boolean pacienteEliminado = service.borrar(id);
 		
 		if (pacienteEliminado) {
 			return ResponseEntity.status(HttpStatus.OK).body("Paciente " + id + " eliminado"); 
