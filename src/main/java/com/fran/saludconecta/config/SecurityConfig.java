@@ -18,25 +18,25 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(auth -> auth
                 // Estas rutas se permiten sin autenticación:
-                .requestMatchers("/login2", "/css/**", "/js/**").permitAll()
+                .requestMatchers("/login", "/css/**", "/js/**").permitAll()
                 // Todas las demás rutas requieren estar autenticado
                 .anyRequest().authenticated()
             )
             
             .formLogin(form -> form
                 // Vista personalizada de login
-                .loginPage("/login2")
+                .loginPage("/login")
                 // URL que procesa el formulario de login (debe coincidir con th:action en login2.html)
                 .loginProcessingUrl("/login")
                 // Redirección tras login exitoso
-                .defaultSuccessUrl("/inicio2", true)
+                .defaultSuccessUrl("/inicio", true)
                 // Permite que todos accedan al formulario de login
                 .permitAll()
             )
 
             .logout(logout -> logout
                 // Redirección tras cerrar sesión
-                .logoutSuccessUrl("/login2?logout")
+                .logoutSuccessUrl("/login?logout")
             )
             
             .httpBasic() // ✅ esto permite autenticación básica para Postman, curl, etc.

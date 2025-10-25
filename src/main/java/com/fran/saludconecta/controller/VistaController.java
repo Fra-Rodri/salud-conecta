@@ -48,71 +48,71 @@ public class VistaController {
 	
 	@GetMapping("/")
     public String redirigirAlLogin() {
-        return "redirect:/login2";
+        return "redirect:/login";
     }
 	
-	@GetMapping("/login2")
+	@GetMapping("/login")
 	public String login() {
-        return "login2";
+        return "login";
     }
 
-    @GetMapping("/inicio2")
+    @GetMapping("/inicio")
     public String inicio() {
-        return "inicio2";
+        return "inicio";
     }
     
-    @GetMapping("/pacientes2")
+    @GetMapping("/pacientes")
     public String pacientes(Model model) {
     	List<PacienteDTO> lista = pacienteService.mostrarTodos();
 		model.addAttribute("pacientes", lista);
-        return "pacientes2";
+        return "pacientes";
     }
     
     
-    @GetMapping("/pacientes2/editar/{id}")
+    @GetMapping("/pacientes/editar/{id}")
     public String mostrarFormularioEdicion(@PathVariable Integer id, Model model) {
         PacienteDTO paciente = pacienteService.mostrarPorId(id);
         if (paciente != null) {
             model.addAttribute("paciente", paciente);
             return "editar-paciente";// nombre del archivo HTML en /templates
         } else {
-            return "redirect:/pacientes2"; // o mostrar una vista de error si prefieres
+            return "redirect:/pacientes"; // o mostrar una vista de error si prefieres
         }
     }
     
-    @GetMapping("/pacientes2/eliminar/{id}")
+    @GetMapping("/pacientes/eliminar/{id}")
     public String mostrarConfirmacionEliminacion(@PathVariable Integer id, Model model) {
         PacienteDTO paciente = pacienteService.mostrarPorId(id);
         if (paciente != null) {
             model.addAttribute("paciente", paciente);
             return "confirmar-eliminacion";
         } else {
-            return "redirect:/pacientes2";
+            return "redirect:/pacientes";
         }
     }
     
-    @PostMapping("/pacientes2/editar/{id}")
+    @PostMapping("/pacientes/editar/{id}")
     public String procesarEdicion(@PathVariable Integer id, @ModelAttribute PacienteDTO dto) {
         pacienteService.modificar(id, dto);
-        return "redirect:/pacientes2";
+        return "redirect:/pacientes";
     }
 
-    @PostMapping("/pacientes2/eliminar/{id}")
+    @PostMapping("/pacientes/eliminar/{id}")
     public String procesarEliminacion(@PathVariable Integer id) {
         pacienteService.borrar(id);
-        return "redirect:/pacientes2";
+        return "redirect:/pacientes";
     }
 	
-    @GetMapping("/pacientes2/crear")
+    @GetMapping("/pacientes/crear")
     public String mostrarFormularioCreacion(Model model) {
         model.addAttribute("paciente", new PacienteDTO());
         return "crear-paciente";
     }
 
-    @PostMapping("/pacientes2/crear")
+    @PostMapping("/pacientes/crear")
     public String procesarCreacion(@ModelAttribute PacienteDTO dto) {
         pacienteService.crear(dto);
-        return "redirect:/pacientes2";
+        return "redirect:/pacientes";
     }
     
 //    @GetMapping("/calendario")

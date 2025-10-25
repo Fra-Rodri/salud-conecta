@@ -3,6 +3,8 @@ package com.fran.saludconecta.controller;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,15 +36,26 @@ import jakarta.validation.Valid;
  *  ResponseEntity.ok(...): devuelve respuesta HTTP 200 con cuerpo.
  *  ResponseEntity.status(HttpStatus.CREATED).body(...): devuelve 201 con el nuevo objeto.
  *  ResponseEntity.noContent().build(): devuelve 204 sin cuerpo (usado tras eliminar).
+ *  
+ *  @RequestBody convierte el JSON recibido en un objeto Java y •  
+ *  @Valid: activa las validaciones que definiste en PacienteDTO (como @NotBlank, @Size, etc.).  
+ *  BindingResult result: captura los errores de validación si los hay.
+ *  
+ *  En Spring MVC, BindingResult debe ir inmediatamente después del parámetro 
+ *  anotado con @Valid. Si no lo haces así, Spring ignora el BindingResult y 
+ *  lanza una excepción directamente (lo que rompe tu lógica personalizada de errores).
+ *  
+ *  @PathVariable extrae el valor id de la url como en UPDATE
+ *  @PathVariable: viene en la ruta como en DELETE
+ *  
  */
 
 @RestController // combina @Controller + @ResponseBody, por eso devuelve JSON directamente.
-@RequestMapping("/pacientes") // prefijo común para todas las rutas.
+@RequestMapping("/api/pacientes") // prefijo común para todas las rutas.
 public class PacienteController {
 	
 	@Autowired
-	private PacienteService pacienteService;
-	// [PacienteController] → usa → PacienteService → accede a datos → devuelve JSON
+	private PacienteService pacienteService; // [PacienteController] → usa → PacienteService → accede a datos → devuelve JSON
 	
 	@GetMapping
 	public ResponseEntity<?> listarTodos(HttpServletRequest request) {
@@ -51,98 +64,85 @@ public class PacienteController {
 		if (!listaPacientes.isEmpty()) {
 			return ResponseEntity.ok(listaPacientes); // 200 OK con lista
 		} else {
-			ErrorResponse error = ErrorResponse.builder()
-					.timeStamp(LocalDateTime.now())
-					.status(HttpStatus.NOT_FOUND.value())
-					.error("Not Found")
-					.message("La cantidad de pacientes es: " + listaPacientes.size())
-					.path(request.getRequestURI())
-					.build();
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+			ErrorResponse error = mostrarError(request, HttpStatus.OK, "La lista de pacientes está vacía");
+			return ResponseEntity.status(HttpStatus.OK).body(error); // Aquí lo devuelve en la propia llamada al lado de los segundos tardados
 		}
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> obtener(@PathVariable Integer id, HttpServletRequest request) { // @PathVariable extrae el valor id de la url
+	public ResponseEntity<?> obtener(@PathVariable Integer id, HttpServletRequest request) { 
 		PacienteDTO pacienteEncontrado = pacienteService.mostrarPorId(id);
 		
 		if (pacienteEncontrado != null) {
 			return ResponseEntity.ok(pacienteEncontrado);
 		} else {
-			ErrorResponse error = ErrorResponse.builder()
-					.timeStamp(LocalDateTime.now())
-					.status(HttpStatus.NOT_FOUND.value())
-					.error("Not Found")
-					.message("Paciente con ID " + id + " no encontrado")
-					.path(request.getRequestURI())
-					.build();
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+			ErrorResponse error = mostrarError(request, HttpStatus.OK, "Paciente con ID " + id + " no encontrado");
+			return ResponseEntity.status(HttpStatus.OK).body(error);
 		}
 	}
 	
 
 	@PostMapping
-	public ResponseEntity<?> crear (@Valid @RequestBody PacienteDTO dto, BindingResult result, HttpServletRequest request){ // @RequestBody convierte el JSON recibido en un objeto Java.
+	public ResponseEntity<?> crear (@Valid @RequestBody PacienteDTO dto, BindingResult result, HttpServletRequest request){ 
+		
 		if (result.hasErrors()) {
-			String mensaje = result
-					.getFieldErrors()
-					.stream()
-					.map(error -> error.getField() + ": " + error.getDefaultMessage())
-					.reduce((m1, m2) -> m1 + "; " + m2)
-					.orElse("Datos inválidos");
 			
-			ErrorResponse error = ErrorResponse.builder()
-	                .timeStamp(LocalDateTime.now())
-	                .status(HttpStatus.BAD_REQUEST.value())
-	                .error("Validación fallida")
-	                .message(mensaje.toString())
-	                .path(request.getRequestURI())
-	                .build();
-			
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+			String mensaje = result.getFieldErrors().stream().map(error -> error.getField() + ": " + error.getDefaultMessage()).collect(Collectors.joining(" | "));
+			ErrorResponse error = mostrarError(request, HttpStatus.BAD_REQUEST, mensaje);
 
-		}
-		
-		boolean pacienteCreado = pacienteService.crear(dto);
-		
-		if (pacienteCreado) {
-			return ResponseEntity.status(HttpStatus.CREATED).body(dto);
-		} else {
-			ErrorResponse error = ErrorResponse.builder()
-					.timeStamp(LocalDateTime.now())
-					.status(HttpStatus.BAD_REQUEST.value())
-					.error("Error al insertar")
-					.message("Paciente con ID " + dto.getId() + " ya existe")
-					.path(request.getRequestURI())
-					.build();
-			
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+		
+		} else {
+			
+			pacienteService.crear(dto);
+			return ResponseEntity.status(HttpStatus.CREATED).body(dto);
 		}		
 	}
 	
 
 	@PutMapping("/{id}")
-	public ResponseEntity<PacienteDTO> actualizar(@PathVariable Integer id, @RequestBody PacienteDTO dto) {
-		PacienteDTO actualizarPaciente = pacienteService.modificar(id, dto);
-		return actualizarPaciente != null ? ResponseEntity.ok(actualizarPaciente) : ResponseEntity.notFound().build();
+	public ResponseEntity<?> actualizar(@Valid  @RequestBody PacienteDTO dto, BindingResult result, @PathVariable Integer id, HttpServletRequest request) {
+		
+		if (result.hasErrors()) {
+			String mensaje = result.getFieldErrors().stream().map(error -> error.getField() + ": " + error.getDefaultMessage()).collect(Collectors.joining(" | "));
+			ErrorResponse error = mostrarError(request, HttpStatus.BAD_REQUEST, mensaje);
+			
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+		} else {
+			Boolean existe = pacienteService.mostrarTodos().stream().anyMatch(p -> p.getId().equals(id));
+			
+			if (!existe) {
+				ErrorResponse error = mostrarError(request, HttpStatus.BAD_REQUEST, "Paciente con ID " + id + " no encontrado");
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+			} else {
+				PacienteDTO actualizarPaciente = pacienteService.modificar(id, dto);
+				return ResponseEntity.ok(actualizarPaciente);
+			}
+		}
 	}
 	
+	private ErrorResponse mostrarError(HttpServletRequest request, HttpStatus status , String message) {
+		ErrorResponse error = ErrorResponse.builder() // Esto es el response personalizado
+				.timeStamp(LocalDateTime.now())
+				.status(status.value())
+				.error("Algo ha ido mal")
+				.message(message)
+				.path(request.getRequestURI())
+				.build();
+		
+		return error;
+	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/eliminar")
 	public ResponseEntity<?> eliminar(@RequestParam Integer id, HttpServletRequest request) {
 		boolean pacienteEliminado = pacienteService.borrar(id);
 		
 		if (pacienteEliminado) {
-			return ResponseEntity.noContent().build();
+			return ResponseEntity.status(HttpStatus.OK).body("Paciente " + id + " eliminado"); 
 		} else {
-			ErrorResponse error = ErrorResponse.builder()
-					.timeStamp(LocalDateTime.now())
-					.status(HttpStatus.NOT_FOUND.value())
-					.error("Not Found")
-					.message("Paciente con ID " + id + " no encontrado")
-					.path(request.getRequestURI())
-					.build();
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+
+			ErrorResponse error = mostrarError(request, HttpStatus.BAD_REQUEST, "Paciente con ID " + id + " no encontrado");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 		}
 	}
 }
