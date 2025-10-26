@@ -17,6 +17,7 @@ public class PacienteMapper {
                 .nombre(record.get(Paciente.PACIENTE.NOMBRE))
                 .dni(record.get(Paciente.PACIENTE.DNI))
                 .fechaNacimiento(record.get(Paciente.PACIENTE.FECHA_NACIMIENTO))
+                .alta(record.get(Paciente.PACIENTE.ALTA))
                 .build();
     }
 	
@@ -29,6 +30,7 @@ public class PacienteMapper {
 		record.setNombre(dto.getNombre().trim());
 		record.setDni(dto.getDni().trim());
 		record.setFechaNacimiento(dto.getFechaNacimiento());
+		record.setAlta(dto.getAlta());
 		return record;
 	}
 }

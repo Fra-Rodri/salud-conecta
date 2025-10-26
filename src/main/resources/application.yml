@@ -15,3 +15,21 @@ spring:
     user:
       name: user
       password: user
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: rodriguezxf@gmail.com
+    password: 
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        debug: true
+
+#logging:
+#  level:
+#    org.springframework.mail: DEBUG
+#    jakarta.mail: DEBUG

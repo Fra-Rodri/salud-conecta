@@ -44,7 +44,74 @@
         </nav>
     </header>
 
-    
+	<main class="container mt-5">
+	    <div class="card shadow-sm mx-auto" style="max-width: 750px;">
+	        <div class="card-header bg-primary text-white">
+	            <h4 class="mb-0">
+	                <i class="fas fa-user-injured me-2"></i>Ficha del Paciente
+	            </h4>
+	        </div>
+
+	        <div class="card-body">
+	            <p><strong>ID:</strong> <span th:text="${paciente.id}">1</span></p>
+	            <p><strong>Nombre:</strong> <span th:text="${paciente.nombre}">Nombre</span></p>
+	            <p><strong>DNI:</strong> <span th:text="${paciente.dni}">DNI</span></p>
+	            <p><strong>Fecha de nacimiento:</strong> 
+	                <span th:text="${#temporals.format(paciente.fechaNacimiento, 'dd/MM/yyyy')}">01/01/1990</span>
+	            </p>
+	        </div>
+
+	        <div class="card-footer text-end">
+	            <a th:href="@{/pacientes}" class="btn btn-secondary">
+	                <i class="fas fa-arrow-left"></i> Volver al listado
+	            </a>
+	            <a th:href="@{'/pacientes/editar/' + ${paciente.id}}" class="btn btn-outline-primary ms-2">
+	                <i class="fas fa-edit"></i> Editar
+	            </a>
+	        </div>
+	    </div>
+
+	    <div class="mt-5">
+	        <h5 class="text-primary">
+	            <i class="fas fa-file-medical me-2"></i>Informes Asociados
+	        </h5>
+
+	        <div th:if="${paciente.informe != null and !paciente.informe.isEmpty()}">
+	            <table class="table table-bordered table-hover table-striped mt-3">
+	                <thead class="text-center">
+	                    <tr>
+	                        <th>ID</th>
+	                        <th>Usuario</th>
+	                        <th>Fecha de creación</th>
+	                        <th>Acciones</th>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	                    <tr th:each="informe : ${paciente.informe}">
+	                        <td th:text="${informe.id}"></td>
+	                        <td th:text="${informe.nombreUsuario}"></td>
+	                        <td th:text="${#temporals.format(informe.fechaCreacion, 'dd/MM/yyyy')}"></td>
+	                        <td class="text-center">
+	                            <a th:href="@{'/informes/ver/' + ${informe.id}}" class="btn btn-sm btn-success me-1">
+	                                <i class="fas fa-eye"></i> Ver
+	                            </a>
+	                            <a th:href="@{'/informes/editar/' + ${informe.id}}" class="btn btn-sm btn-outline-primary me-1">
+	                                <i class="fas fa-edit"></i> Editar
+	                            </a>
+	                            <a th:href="@{'/informes/eliminar/' + ${informe.id}}" class="btn btn-sm btn-outline-danger">
+	                                <i class="fas fa-trash-alt"></i> Eliminar
+	                            </a>
+	                        </td>
+	                    </tr>
+	                </tbody>
+	            </table>
+	        </div>
+
+	        <div th:if="${paciente.informe == null or paciente.informe.isEmpty()}" class="alert alert-info mt-3">
+	            <i class="fas fa-info-circle me-2"></i>Este paciente no tiene informes registrados.
+	        </div>
+	    </div>
+	</main>
 
     <footer>
         <hr/>

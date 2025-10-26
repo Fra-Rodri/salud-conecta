@@ -94,8 +94,8 @@ public class VistaController {
     
     @GetMapping("/pacientes/ver/{id}") 
     public String pacientesDetalles(@PathVariable Integer id, Model model) {
-    	PacienteDTO elemento = service.mostrarPorId(id);
-		model.addAttribute("elemento", elemento); 
+    	PacienteDTO elemento = service.mostrarDetallesPorId(id);
+		model.addAttribute("paciente", elemento); 
         return "pacientes/pacientes-detalles"; 
         
     }

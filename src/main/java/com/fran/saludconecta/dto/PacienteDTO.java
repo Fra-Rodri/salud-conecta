@@ -1,6 +1,7 @@
 package com.fran.saludconecta.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,4 +30,9 @@ public class PacienteDTO {
 	
 	@Past(message = "La fecha de nacimiento debe ser anterior a hoy")
     private LocalDate fechaNacimiento;
+	
+	private Boolean alta;
+	private LocalDate fechaCreacion;
+	private LocalDate fechaModificacion;
+	private List<InformeDTO> informe;
 }

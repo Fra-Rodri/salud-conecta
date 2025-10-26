@@ -11,6 +11,7 @@ import com.fran.saludconecta.dto.InformeDTO;
 import com.fran.saludconecta.dto.PacienteDTO;
 import com.fran.saludconecta.dto.PacienteDetallesDTO;
 import com.fran.saludconecta.jooq.tables.records.PacienteRecord;
+import com.fran.saludconecta.mapper.InformeMapper;
 import com.fran.saludconecta.mapper.PacienteMapper;
 import com.fran.saludconecta.repository.InformeRepository;
 import com.fran.saludconecta.repository.PacienteRepository;
@@ -65,14 +66,13 @@ public class PacienteServiceImp implements PacienteService {
 	}
 
 	@Override
-	public PacienteDetallesDTO mostrarDetallesPorId(Integer id) {
+	public PacienteDTO mostrarDetallesPorId(Integer id) {
+		// falta comprobar que si el id es null porque ya no existe el paciente peta ya que ahora mismo recorre todos los informes
+		// falta ver si dto es null por error de id de paciente etc...
 		PacienteDTO dto = mostrarPorId(id);
-		PacienteDetallesDTO detallesDTO = new PacienteDetallesDTO();
-		List<InformeDTO> listaInformes = new ArrayList<>();
+		List<InformeDTO> listaInformes = informeRepository.obtenerTodos().stream().filter(i -> i.getPacienteId().equals(id)).map(InformeMapper::toDTO).toList();
+		dto.setInforme(listaInformes);
 		
-		detallesDTO.setAlta();
-		
-		
-		return detallesDTO;
+		return dto;
 	}
 }

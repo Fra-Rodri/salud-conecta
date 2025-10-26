@@ -124,7 +124,7 @@ public class PacienteController {
 	
 	@GetMapping("detalles/{id}")
 	public ResponseEntity<?> detallesPaciente(@PathVariable Integer id, HttpServletRequest request) { 
-		PacienteDetallesDTO detallesDTO = service.mostrarDetallesPorId(id);
+		PacienteDTO detallesDTO = service.mostrarDetallesPorId(id);
 		
 		if (detallesDTO != null) {
 			return ResponseEntity.ok(detallesDTO);
