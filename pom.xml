@@ -28,11 +28,13 @@
 
 	<!-- Dependencias necesarias -->
 	<dependencies>
+	
 		<!-- Spring Boot Mail para enviar correos -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
+		
 		<!-- Apache POI para exportar a Excel -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -124,11 +126,11 @@
 			<artifactId>jooq-codegen</artifactId>
 		</dependency>
 
-		<!-- API de validación (anotaciones como @NotBlank, @Size...) -->
-		<dependency>
-		    <groupId>jakarta.validation</groupId>
-		    <artifactId>jakarta.validation-api</artifactId>
-		</dependency>
+		<!-- API de validación (anotaciones como @NotBlank, @Size...) jakarta.validation-api: ya está incluida en spring-boot-starter-validation-->
+<!--		<dependency>-->
+<!--		    <groupId>jakarta.validation</groupId>-->
+<!--		    <artifactId>jakarta.validation-api</artifactId>-->
+<!--		</dependency>-->
 
 		<!-- Starter para activar validación en Spring Boot -->
 		<dependency>
@@ -160,14 +162,15 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
+				<!--lombok en spring-boot-maven-plugin → <excludes>: no es necesario excluirlo a menos que tengas problemas específicos al empaquetar.-->
+<!--				<configuration>-->
+<!--					<excludes>-->
+<!--						<exclude>-->
+<!--							<groupId>org.projectlombok</groupId>-->
+<!--							<artifactId>lombok</artifactId>-->
+<!--						</exclude>-->
+<!--					</excludes>-->
+<!--				</configuration>-->
 			</plugin>
 
 			<!-- Plugin para generar clases jOOQ desde la base de datos -->
@@ -183,10 +186,11 @@
 						</goals>
 						<configuration>
 							<jdbc>
-								<driver>org.postgresql.Driver</driver>
-								<url>jdbc:postgresql://localhost:5432/saludconectadb</url>
-								<user>frarod</user>
-								<password>frarod</password>
+								<!--Esto se usa desde el .m2/settings.xml-->
+								<driver>${db.driver}</driver>
+								<url>${db.url}</url>
+								<user>${db.user}</user>
+								<password>${db.password}</password>
 							</jdbc>
 							<generator>
 								<database>
@@ -205,5 +209,4 @@
 
 		</plugins>
 	</build>
-
 </project>

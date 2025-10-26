@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Listado de Pacientes - SaludConecta</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Exportar Excel - SaludConecta</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -23,18 +23,18 @@
         nav form {
             display: inline;
         }
-        .table th {
-            background-color: #0d6efd;
-            color: white;
-        }
-        .table td {
-            vertical-align: middle;
-        }
         footer {
             text-align: center;
             margin-top: 50px;
             padding: 10px;
             color: #6c757d;
+        }
+        .export-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -64,54 +64,49 @@
 	</nav>
 
     <main class="container mt-5">
-		<div class="text-end mb-4">
-		    <a th:href="@{/informes/crear}" class="btn btn-success">
-		        <i class="fas fa-pen-to-square"></i> Nuevo Informe
-		    </a>
-		</div>
         <h2 class="text-center mb-4">
-            <i class="fas fa-laptop-file me-2 text-primary"></i>Listado de Informes
+            <i class="fas fa-file-excel me-2 text-success"></i>Exportar Datos
         </h2>
 
-		<table class="table table-bordered table-hover table-striped">
-		    <thead class="text-center">
-		        <tr>
-		            <th>ID</th>
-					<th>Paciente</th>
-		            <th>Profesional</th>
-		            <th>Fecha de Creación</th>
-		            <th>Última Modificación</th>
-		            <th>Acciones</th>
-		        </tr>
-		    </thead>
-		    <tbody>
-		        <tr th:each="informe : ${informes}">
-		            <td th:text="${informe.id}"></td>
-					<td th:text="${informe.nombrePaciente}"></td>
-		            <td th:text="${informe.nombreUsuario}"></td>
-		            <td th:text="${#temporals.format(informe.fechaCreacion, 'dd/MM/yyyy')}"></td>
-		            <td th:text="${#temporals.format(informe.fechaModificacion, 'dd/MM/yyyy')}"></td>
-		            <td class="text-center">
-		                <a th:href="@{'/informes/ver/' + ${informe.id}}" class="btn btn-sm btn-success me-1">
-		                    <i class="fas fa-eye"></i> Ver
-		                </a>
-		                <a th:href="@{'/informes/editar/' + ${informe.id}}" class="btn btn-sm btn-outline-primary me-1">
-		                    <i class="fas fa-edit"></i> Editar
-		                </a>
-		                <a th:href="@{'/informes/eliminar/' + ${informe.id}}" class="btn btn-sm btn-outline-danger">
-		                    <i class="fas fa-trash-alt"></i> Eliminar
-		                </a>
-		            </td>
-		        </tr>
-		    </tbody>
-		</table>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="export-card">
+                    <h3 class="mb-4"><i class="fas fa-user-injured text-primary me-2"></i>Exportar Pacientes</h3>
+                    <p class="text-muted">Genera un archivo Excel con el listado completo de pacientes</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <a th:href="@{/export/pacientes}" class="btn btn-success me-2">
+                                <i class="fas fa-download me-1"></i> Descargar Excel
+                            </a>
+                        </div>
+                        <a th:href="@{/exports/email}" class="btn btn-outline-primary">
+                            <i class="fas fa-envelope me-1"></i> Enviar por Email
+                        </a>
+                    </div>
+                </div>
+
+                <div class="export-card">
+                    <h3 class="mb-4"><i class="fas fa-laptop-file text-primary me-2"></i>Exportar Informes</h3>
+                    <p class="text-muted">Genera un archivo Excel con el listado completo de informes</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <a th:href="@{/export/informes}" class="btn btn-success me-2">
+                                <i class="fas fa-download me-1"></i> Descargar Excel
+                            </a>
+                        </div>
+                        <a th:href="@{/exports/email}" class="btn btn-outline-primary">
+                            <i class="fas fa-envelope me-1"></i> Enviar por Email
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
-	<footer>
+    <footer>
         <hr/>
         <p>&copy; 2025 SaludConecta</p>
     </footer>
-
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

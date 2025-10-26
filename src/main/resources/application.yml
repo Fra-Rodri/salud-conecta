@@ -2,6 +2,7 @@ spring:
   application:
     name: SaludConecta
 
+# Datos de conexión a la bbdd
   datasource:
     url: jdbc:postgresql://localhost:5432/saludconectadb
     username: frarod
@@ -11,11 +12,13 @@ spring:
   jooq:
     sql-dialect: POSTGRES
 
+# Usuario para el login
   security:
     user:
       name: user
       password: user
 
+# Configuración del SMTP para el envío de correos
   mail:
     host: smtp.gmail.com
     port: 587
@@ -29,7 +32,8 @@ spring:
             enable: true
         debug: true
 
-#logging:
-#  level:
-#    org.springframework.mail: DEBUG
-#    jakarta.mail: DEBUG
+# Trazas para el envío de correos
+logging:
+  level:
+    org.springframework.mail: DEBUG
+    jakarta.mail: DEBUG

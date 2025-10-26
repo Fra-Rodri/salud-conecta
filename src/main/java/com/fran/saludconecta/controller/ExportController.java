@@ -10,17 +10,16 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.Period;
 
-@RestController
+@Controller
 @RequestMapping("/export")
 public class ExportController {
 
@@ -29,17 +28,33 @@ public class ExportController {
 
     @Autowired
     private ExportMailService exportMailService;
-    @GetMapping("/pacientes/email")
-    public ResponseEntity<String> enviarPacientesPorEmail(@RequestParam String destinatario) {
+    @PostMapping("/pacientes/email")
+    public String enviarPacientesPorEmail(@RequestParam String destinatario, RedirectAttributes redirectAttributes) {
         try {
             exportMailService.enviarPacientesExcel(destinatario);
-            return ResponseEntity.ok("Correo enviado correctamente a " + destinatario);
+            redirectAttributes.addFlashAttribute("mensaje", "Excel enviado correctamente a " + destinatario);
+            redirectAttributes.addFlashAttribute("tipoMensaje", "success");
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error enviando correo: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("mensaje", "Error al enviar el excel: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("tipoMensaje", "danger");
         }
+        return "redirect:/exports/email";
     }
 
-    @GetMapping("/pacientes/excel")
+    @PostMapping("/informes/email")
+    public String enviarInformesPorEmail(@RequestParam String destinatario, RedirectAttributes redirectAttributes) {
+        try {
+            // TODO: Implementar envío de informes
+            redirectAttributes.addFlashAttribute("mensaje", "Función no implementada aún");
+            redirectAttributes.addFlashAttribute("tipoMensaje", "warning");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("mensaje", "Error al enviar el excel: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("tipoMensaje", "danger");
+        }
+        return "redirect:/exports/email";
+    }
+
+    @GetMapping("/pacientes")
     public ResponseEntity<ByteArrayResource> exportarPacientesExcel() {
         try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             Sheet sheet = workbook.createSheet("Pacientes");
@@ -90,5 +105,11 @@ public class ExportController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @GetMapping("/informes")
+    public ResponseEntity<String> exportarInformesExcel() {
+        // TODO: Implementar exportación de informes
+        return ResponseEntity.ok("Función no implementada aún");
     }
 }
