@@ -1,7 +1,6 @@
 package com.fran.saludconecta.mapper;
 
 import org.jooq.DSLContext;
-
 import com.fran.saludconecta.dto.PacienteDTO;
 import com.fran.saludconecta.jooq.tables.Paciente;
 import com.fran.saludconecta.jooq.tables.records.PacienteRecord;
@@ -30,7 +29,7 @@ public class PacienteMapper {
 		record.setNombre(dto.getNombre().trim());
 		record.setDni(dto.getDni().trim());
 		record.setFechaNacimiento(dto.getFechaNacimiento());
-		record.setAlta(dto.getAlta());
+		record.setAlta(true);
 		return record;
 	}
 }

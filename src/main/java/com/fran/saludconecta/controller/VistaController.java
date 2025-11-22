@@ -1,5 +1,6 @@
 package com.fran.saludconecta.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.fran.saludconecta.dto.InformeDTO;
 import com.fran.saludconecta.dto.PacienteDTO;
 import com.fran.saludconecta.service.PacienteService;
 
@@ -34,12 +34,17 @@ public class VistaController {
     }
 
     @GetMapping("/inicio")
-    public String inicio() {
+    public String inicio(Principal principal, Model model) {
+        String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
+        model.addAttribute("usuario", usuario);
         return "inicio";
     }
     
     @GetMapping("/pacientes") // método que se ejecuta cuando el usuario accede a la URL /pacientes en el navegador. Es una ruta HTTP GET.
-    public String pacientes(Model model) {
+    public String pacientes(Principal principal, Model model) {
+        String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
+        model.addAttribute("usuario", usuario);
+
     	List<PacienteDTO> listaPacientes = service.mostrarTodos();
 		model.addAttribute("pacientes", listaPacientes); // Esto envía la lista al HTML con el nombre "pacientes". En Thymeleaf, puedes acceder a esa lista con ${pacientes}.
         return "pacientes"; // nombre del template, Le dice a Spring: “Después de ejecutar este método, muestra la plantilla pacientes.html”. No redirige a otra URL, simplemente renderiza el HTML que está en src/main/resources/templates/pacientes.html.
