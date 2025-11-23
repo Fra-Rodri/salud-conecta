@@ -1,6 +1,5 @@
 package com.fran.saludconecta.usuario.dto;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fran.saludconecta.jooq.enums.RolUsuario;
@@ -27,8 +26,8 @@ public class UsuarioDTO {
 
     private String email;
 
-	@NotBlank(message = "El DNI no puede estar vacío")
-    @Size(max = 20, message = "El DNI no puede tener más de 20 caracteres")
+	@NotBlank(message = "El PASSWORD no puede estar vacío")
+    @Size(max = 20, message = "El PASSWORD no puede tener más de 20 caracteres")
     private String password;
     
 	private RolUsuario rolUsuario;
