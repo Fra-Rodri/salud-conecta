@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fran.saludconecta.dto.ErrorResponse;
 import com.fran.saludconecta.informe.dto.InformeDTO;
-import com.fran.saludconecta.informe.service.InformeService;
+import com.fran.saludconecta.informe.service.IInformeService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class InformeController {
 	
 	@Autowired
-	private InformeService service; 
+	private IInformeService service; 
 	
 	private ErrorResponse mostrarError(HttpServletRequest request, HttpStatus status , String message) {
 		ErrorResponse error = ErrorResponse.builder() // Esto es el response personalizado

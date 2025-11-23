@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.fran.saludconecta.informe.dto.InformeDTO;
-import com.fran.saludconecta.informe.service.InformeService;
+import com.fran.saludconecta.informe.service.IInformeService;
 
 @Controller
-public class InformesVistaController {
+public class InformeVistaController {
 
 	@Autowired
-	private InformeService service;
+	private IInformeService service;
     
     @GetMapping("/informes-lista") // método que se ejecuta cuando el usuario accede a la URL /pacientes en el navegador. Es una ruta HTTP GET.
     public String informesLista(Model model) {

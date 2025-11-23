@@ -6,13 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.fran.saludconecta.informe.service.InformeService;
+import com.fran.saludconecta.informe.service.IInformeService;
 
 @Controller
 public class CalendarioVistaController {
 	
 	@Autowired
-	private InformeService service;
+	private IInformeService service;
     
     @GetMapping("/calendario-vista") // método que se ejecuta cuando el usuario accede a la URL /pacientes en el navegador. Es una ruta HTTP GET.
     public String calendarioVista(Model model) {

@@ -11,7 +11,7 @@ import com.fran.saludconecta.informe.mapper.InformeMapper;
 import com.fran.saludconecta.informe.repository.InformeRepository;
 
 @Service
-public class InformeServiceImpl implements InformeService{
+public class InformeServiceImpl implements IInformeService{
 
 	@Autowired
 	private DSLContext dsl;

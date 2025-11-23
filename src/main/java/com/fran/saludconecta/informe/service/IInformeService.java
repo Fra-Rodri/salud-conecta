@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fran.saludconecta.informe.dto.InformeDTO;
 
-public interface InformeService {
+public interface IInformeService {
 	List<InformeDTO> mostrarTodos();
 	InformeDTO mostrarPorId(Integer id);
 //	boolean crear(PacienteDTO dto);
