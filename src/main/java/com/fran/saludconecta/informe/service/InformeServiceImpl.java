@@ -6,7 +6,7 @@ import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fran.saludconecta.dto.InformeDTO;
+import com.fran.saludconecta.informe.dto.InformeDTO;
 import com.fran.saludconecta.informe.mapper.InformeMapper;
 import com.fran.saludconecta.informe.repository.InformeRepository;
 

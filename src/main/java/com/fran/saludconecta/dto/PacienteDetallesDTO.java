@@ -3,6 +3,8 @@ package com.fran.saludconecta.dto;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fran.saludconecta.informe.dto.InformeDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

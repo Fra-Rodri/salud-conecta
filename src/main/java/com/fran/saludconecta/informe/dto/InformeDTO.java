@@ -1,4 +1,4 @@
-package com.fran.saludconecta.dto;
+package com.fran.saludconecta.informe.dto;
 
 import java.time.LocalDateTime;
 

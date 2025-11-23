@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.fran.saludconecta.dto.InformeDTO;
+import com.fran.saludconecta.informe.dto.InformeDTO;
 import com.fran.saludconecta.informe.service.InformeService;
 
 @Controller

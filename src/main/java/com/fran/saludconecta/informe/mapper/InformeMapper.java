@@ -2,7 +2,7 @@ package com.fran.saludconecta.informe.mapper;
 
 import org.jooq.DSLContext;
 
-import com.fran.saludconecta.dto.InformeDTO;
+import com.fran.saludconecta.informe.dto.InformeDTO;
 import com.fran.saludconecta.jooq.tables.Informe;
 import com.fran.saludconecta.jooq.tables.records.InformeRecord;
 

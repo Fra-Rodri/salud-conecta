@@ -2,7 +2,7 @@ package com.fran.saludconecta.informe.service;
 
 import java.util.List;
 
-import com.fran.saludconecta.dto.InformeDTO;
+import com.fran.saludconecta.informe.dto.InformeDTO;
 
 public interface InformeService {
 	List<InformeDTO> mostrarTodos();

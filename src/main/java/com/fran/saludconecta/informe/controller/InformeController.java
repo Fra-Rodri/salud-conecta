@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fran.saludconecta.dto.ErrorResponse;
-import com.fran.saludconecta.dto.InformeDTO;
+import com.fran.saludconecta.informe.dto.InformeDTO;
 import com.fran.saludconecta.informe.service.InformeService;
 
 import jakarta.servlet.http.HttpServletRequest;
