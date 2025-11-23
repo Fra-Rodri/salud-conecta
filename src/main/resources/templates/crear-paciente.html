@@ -74,7 +74,15 @@
 
             <div class="mb-3">
                 <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-                <input type="date" th:field="*{fechaNacimiento}" class="form-control" required>
+                <input id="fechaNacimiento"
+                    type="date"
+                    th:field="*{fechaNacimiento}"
+                    class="form-control"
+                    required
+                    th:attr="max=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
+                <div th:if="${#fields.hasErrors('fechaNacimiento')}"
+                    th:errors="*{fechaNacimiento}"
+                    class="text-danger mt-1"></div>
             </div>
 
             <div class="text-center mt-4">
