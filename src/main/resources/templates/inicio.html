@@ -43,6 +43,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item"><a class="nav-link" th:href="@{/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/pacientes}"><i class="fas fa-user-injured"></i> Pacientes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/usuarios-lista}"><i class="fas fa-users"></i> Usuarios</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/informes-lista}"><i class="fas fa-laptop-file"></i> Informes</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/calendario-vista}"><i class="fas fa-calendar-days"></i> Calendario</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/exports/excel}"><i class="fas fa-download"></i> Exportar</a></li>
@@ -69,6 +70,7 @@
         <p class="lead">Has iniciado sesión correctamente.</p>
 		<p><a th:href="@{/pacientes}" class="btn btn-primary mt-3"><i class="fas fa-user-injured"></i> Ver listado completo de pacientes</a></p>
 		<p><a th:href="@{/informes-lista}" class="btn btn-primary mt-3"><i class="fas fa-laptop-file"></i> Ver listado completo de informes</a></p>
+		<p><a th:href="@{/usuarios-lista}" class="btn btn-primary mt-3"><i class="fas fa-users"></i> Ver listado completo de usuarios</a></p>
 		<p><a th:href="@{/calendario-vista}" class="btn btn-primary mt-3"><i class="fas fa-calendar-days"></i> Ver calendario de citas</a></p>
 		<p><a th:href="@{/exports/excel}" class="btn btn-success mt-3"><i class="fas fa-download"></i> Exportar listado en excel</a></p>
 		<p><a th:href="@{/exports/email}" class="btn btn-info mt-3 text-white"><i class="fas fa-envelope"></i> Enviar excel por correo</a></p>
