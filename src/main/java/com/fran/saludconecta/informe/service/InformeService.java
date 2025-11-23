@@ -1,4 +1,4 @@
-package com.fran.saludconecta.service;
+package com.fran.saludconecta.informe.service;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.fran.saludconecta.repository;
+package com.fran.saludconecta.informe.repository;
 
 import java.util.List;
 

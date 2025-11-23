@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.fran.saludconecta.service.InformeService;
+import com.fran.saludconecta.informe.service.InformeService;
 
 @Controller
 public class CalendarioVistaController {

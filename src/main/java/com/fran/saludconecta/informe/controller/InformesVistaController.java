@@ -1,4 +1,4 @@
-package com.fran.saludconecta.controller;
+package com.fran.saludconecta.informe.controller;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.fran.saludconecta.dto.InformeDTO;
-import com.fran.saludconecta.service.InformeService;
+import com.fran.saludconecta.informe.service.InformeService;
 
 @Controller
 public class InformesVistaController {

@@ -1,4 +1,4 @@
-package com.fran.saludconecta.mapper;
+package com.fran.saludconecta.informe.mapper;
 
 import org.jooq.DSLContext;
 

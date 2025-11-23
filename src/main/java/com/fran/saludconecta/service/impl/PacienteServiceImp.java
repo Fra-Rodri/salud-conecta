@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import com.fran.saludconecta.dto.InformeDTO;
 import com.fran.saludconecta.dto.PacienteDTO;
 import com.fran.saludconecta.dto.PacienteDetallesDTO;
+import com.fran.saludconecta.informe.mapper.InformeMapper;
+import com.fran.saludconecta.informe.repository.InformeRepository;
 import com.fran.saludconecta.jooq.tables.records.PacienteRecord;
-import com.fran.saludconecta.mapper.InformeMapper;
 import com.fran.saludconecta.mapper.PacienteMapper;
-import com.fran.saludconecta.repository.InformeRepository;
 import com.fran.saludconecta.repository.PacienteRepository;
 import com.fran.saludconecta.service.PacienteService;
 
