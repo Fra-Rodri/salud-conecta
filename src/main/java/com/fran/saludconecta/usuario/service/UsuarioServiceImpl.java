@@ -1,5 +1,59 @@
 package com.fran.saludconecta.usuario.service;
 
-public class UsuarioServiceImpl {
+import java.util.List;
 
+import org.jooq.DSLContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.fran.saludconecta.jooq.tables.records.UsuarioRecord;
+import com.fran.saludconecta.usuario.dto.UsuarioDTO;
+import com.fran.saludconecta.usuario.mapper.UsuarioMapper;
+import com.fran.saludconecta.usuario.repository.UsuarioRepository;
+
+@Service
+public class UsuarioServiceImpl implements IUsuarioService {
+
+    @Autowired
+    private DSLContext dsl;
+
+    @Autowired
+    private UsuarioRepository repository;
+
+    @Override
+    public List<UsuarioDTO> mostrarTodos() {
+        return repository.obtenerTodos().stream().map(UsuarioMapper::toDTO).toList();
+    }
+
+    @Override
+    public UsuarioDTO mostrarPorId(Integer id) {
+        return UsuarioMapper.toDTO(repository.obtenerPorId(id));
+    }
+
+    @Override
+    public boolean crear(UsuarioDTO dto) {
+        UsuarioRecord guardarRecord = UsuarioMapper.fromDTO(dto, dsl);
+        UsuarioRecord comprobarRecord = repository.obtenerPorId(guardarRecord.getId());
+
+        if (comprobarRecord == null) {
+            repository.guardar(guardarRecord);
+            dto.setId(guardarRecord.getId());
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public UsuarioDTO modificar(Integer id, UsuarioDTO dto) {
+        dto.setNombre(dto.getNombre().trim());
+        dto.setEmail(dto.getEmail().trim());
+        UsuarioRecord record = repository.actualizar(id, dto);
+        return UsuarioMapper.toDTO(record);
+    }
+
+    @Override
+    public boolean borrar(Integer id) {
+        return repository.eliminar(id);
+    }
 }

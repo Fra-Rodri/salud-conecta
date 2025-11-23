@@ -1,9 +1,14 @@
+-- Esto hace que todas las referencias sin prefijo usen por defecto el esquema clinica.
+SET search_path TO clinica;
+
 -- Crear esquema si no existe
 CREATE SCHEMA IF NOT EXISTS clinica;
 
+DROP FUNCTION IF EXISTS clinica.actualizar_fecha_modificacion() CASCADE;
+
 
 -- Trigger para actualizar el campo fecha modificación
-CREATE OR REPLACE FUNCTION actualizar_fecha_modificacion()
+CREATE OR REPLACE FUNCTION clinica.actualizar_fecha_modificacion()
 RETURNS TRIGGER AS $$
 BEGIN
   NEW.fecha_modificacion := CURRENT_TIMESTAMP;
@@ -19,13 +24,12 @@ DROP TABLE clinica.negocio CASCADE;
 DROP TABLE clinica.paciente CASCADE;
 DROP TABLE clinica.paciente_usuario CASCADE;
 DROP TABLE clinica.usuario CASCADE;
-DROP TYPE rol_usuario;
-DROP TYPE estado_cita;
-
+DROP TYPE IF EXISTS clinica.rol_usuario CASCADE;
+DROP TYPE IF EXISTS clinica.estado_cita CASCADE;
 
 -- Enumeradores para roles y estados
-CREATE TYPE rol_usuario AS ENUM ('admin', 'profesional', 'recepcion');
-CREATE TYPE estado_cita AS ENUM ('pendiente', 'confirmada', 'cancelada');
+CREATE TYPE clinica.rol_usuario AS ENUM ('admin', 'profesional', 'recepcion');
+CREATE TYPE clinica.estado_cita AS ENUM ('pendiente', 'confirmada', 'cancelada');
 
 
 -- Tabla negocio
@@ -42,7 +46,7 @@ CREATE TABLE clinica.negocio (
 CREATE TRIGGER negocio_fecha_modificacion_trigger
 BEFORE UPDATE ON clinica.negocio
 FOR EACH ROW
-EXECUTE FUNCTION actualizar_fecha_modificacion();
+EXECUTE FUNCTION clinica.actualizar_fecha_modificacion();
 
 
 
@@ -52,7 +56,7 @@ CREATE TABLE clinica.usuario (
 	nombre varchar(100) NOT NULL,
 	email varchar(100) NOT NULL,
 	password varchar(255) NOT NULL,
-	rol rol_usuario NOT NULL,
+	rol clinica.rol_usuario NOT NULL,
 	negocio_id int4, --  NOT NULL, NO ES NECESARIO QUE PERTENEZCA A UN NEGOCIO, PUEDE SER UN TRABAJADOR DE LA EMPRESA SIN MÁS
 	fecha_creacion timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	fecha_modificacion timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -66,7 +70,7 @@ CREATE INDEX usuario_email_idx ON clinica.usuario (email);
 CREATE TRIGGER usuario_fecha_modificacion_trigger
 BEFORE UPDATE ON clinica.usuario
 FOR EACH ROW
-EXECUTE FUNCTION actualizar_fecha_modificacion();
+EXECUTE FUNCTION clinica.actualizar_fecha_modificacion();
 
 
 
@@ -89,7 +93,7 @@ CREATE INDEX paciente_nombre_idx ON clinica.paciente(nombre);
 CREATE TRIGGER paciente_fecha_modificacion_trigger
 BEFORE UPDATE ON clinica.paciente
 FOR EACH ROW
-EXECUTE FUNCTION actualizar_fecha_modificacion();
+EXECUTE FUNCTION clinica.actualizar_fecha_modificacion();
 
 
 
@@ -107,7 +111,7 @@ CREATE TABLE clinica.paciente_usuario (
 CREATE TRIGGER paciente_usuario_fecha_modificacion_trigger
 BEFORE UPDATE ON clinica.paciente_usuario
 FOR EACH ROW
-EXECUTE FUNCTION actualizar_fecha_modificacion();
+EXECUTE FUNCTION clinica.actualizar_fecha_modificacion();
 
 
 
@@ -118,7 +122,7 @@ CREATE TABLE clinica.cita (
     usuario_id INTEGER NOT NULL,
     fecha_cita TIMESTAMP NOT NULL,
     motivo TEXT,
-    estado estado_cita NOT NULL DEFAULT 'pendiente',
+    estado clinica.estado_cita NOT NULL DEFAULT 'pendiente',
     fecha_creacion timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_modificacion timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT cita_pk PRIMARY KEY (id),
@@ -129,7 +133,7 @@ CREATE TABLE clinica.cita (
 CREATE TRIGGER cita_fecha_modificacion_trigger
 BEFORE UPDATE ON clinica.cita
 FOR EACH ROW
-EXECUTE FUNCTION actualizar_fecha_modificacion();
+EXECUTE FUNCTION clinica.actualizar_fecha_modificacion();
 
 
 
@@ -153,7 +157,7 @@ CREATE TABLE clinica.informe (
 CREATE TRIGGER informe_fecha_modificacion_trigger
 BEFORE UPDATE ON clinica.informe
 FOR EACH ROW
-EXECUTE FUNCTION actualizar_fecha_modificacion();
+EXECUTE FUNCTION clinica.actualizar_fecha_modificacion();
 
 
 -- INSERTS
