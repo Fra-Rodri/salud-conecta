@@ -13,10 +13,10 @@ spring:
     sql-dialect: POSTGRES
 
 # Usuario para el login
-  security:
-    user:
-      name: user
-      password: user
+  # security:
+  #   user:
+  #     name: Laura Martínez
+  #     password: pass123
 
 # Configuración del SMTP para el envío de correos
   mail:

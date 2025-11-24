@@ -26,22 +26,22 @@ public class PacienteVistaController {
 	//[VistaController] → usa → PacienteService → accede a datos → pasa al modelo → muestra HTML
 		
 	
-	@GetMapping("/")
-    public String redirigirAlLogin() {
-        return "redirect:/login";
-    }
+	// @GetMapping("/")
+    // public String redirigirAlLogin() {
+    //     return "redirect:/login";
+    // }
 	
-	@GetMapping("/login")
-	public String login() {
-        return "login";
-    }
+	// @GetMapping("/login")
+	// public String login() {
+    //     return "login";
+    // }
 
-    @GetMapping("/inicio")
-    public String inicio(Principal principal, Model model) {
-        String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
-        model.addAttribute("usuario", usuario);
-        return "inicio";
-    }
+    // @GetMapping("/inicio")
+    // public String inicio(Principal principal, Model model) {
+    //     String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
+    //     model.addAttribute("usuario", usuario);
+    //     return "inicio";
+    // }
     
     @GetMapping("/paciente-lista") // método que se ejecuta cuando el usuario accede a la URL /pacientes en el navegador. Es una ruta HTTP GET.
     public String pacientes(Principal principal, Model model) {

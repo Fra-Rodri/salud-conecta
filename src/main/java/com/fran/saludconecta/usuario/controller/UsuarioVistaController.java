@@ -24,6 +24,17 @@ public class UsuarioVistaController {
     @Autowired
     private IUsuarioService service;
 
+    @GetMapping("/usuario-perfil/{id}")
+    public String mostrarPerfil(Principal principal, @PathVariable Integer id, Model model) {
+        // Aquí obtén el nombre del usuario autenticado
+        String usuarioActivo = principal.getName(); 
+        model.addAttribute("usuarioActivo", usuarioActivo);
+
+    	UsuarioDTO dto = service.mostrarDetallesPorId(id);
+		model.addAttribute("usuario", dto); 
+        return "usuario/usuario-perfil";
+    }
+
     @GetMapping("/usuario-lista")
     public String mostrarLista(Principal principal, Model model) {
         
@@ -40,8 +51,8 @@ public class UsuarioVistaController {
     public String mostrarDetalle(Principal principal, @PathVariable Integer id, Model model) {
         
         // Aquí obtén el nombre del usuario autenticado
-        String usuario = principal.getName(); 
-        model.addAttribute("usuario", usuario);
+        String usuarioActivo = principal.getName(); 
+        model.addAttribute("usuario", usuarioActivo);
 
     	UsuarioDTO dto = service.mostrarDetallesPorId(id);
 		model.addAttribute("usuario", dto); 

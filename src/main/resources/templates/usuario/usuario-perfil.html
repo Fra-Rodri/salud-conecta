@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inicio - SaludConecta</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 15px;
+        }
+        nav a, nav form button {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+        nav form {
+            display: inline;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 10px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand ms-3" th:href="@{/inicio}"><i class="fas fa-clinic-medical me-2"></i>SaludConecta</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/paciente-lista}"><i class="fas fa-user-injured"></i> Pacientes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/usuario-lista}"><i class="fas fa-users"></i> Usuarios</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/informes-lista}"><i class="fas fa-laptop-file"></i> Informes</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/negocio-lista}"><i class="fas fa-building"></i> Negocios</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/calendario-vista}"><i class="fas fa-calendar-days"></i> Calendario</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/exports/excel}"><i class="fas fa-download"></i> Exportar</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/exports/email}"><i class="fas fa-envelope"></i> Correo</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center text-white me-3">
+                    <i class="fas fa-user-circle fa-lg me-2"></i>
+                    <div class="d-flex flex-column">
+                        <small class="text-white-50">Usuario activo</small>
+                        <strong th:text="${usuario}">usuario</strong>
+                    </div>
+                </div>
+
+                <form class="d-flex align-items-center me-3" th:action="@{/logout}" method="post">
+                    <button class="btn btn-sm btn-outline-light" type="submit"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-5">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="card p-4 text-center">
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="profile-avatar" aria-hidden="true"><i class="fas fa-user"></i></div>
+                    </div>
+                    <h3 class="h5 mb-0" th:text="${usuario}">Nombre Usuario</h3>
+                    <p class="small-muted mb-2" th:text="${usuarioRole}">Rol • Centro</p>
+                    <div class="mb-3">
+                        <small class="d-block small-muted" th:text="${usuario.email}">usuario@ejemplo.com</small>
+                        <small class="d-block small-muted" >+34 600 000 000</small> 
+                        <!-- th:text="${usuario.telefono}" -->
+                    </div>
+                    <div class="action-btns mb-3">
+                        <a th:href="@{/usuario-editar}" class="btn btn-sm btn-primary"><i class="fas fa-pen me-1"></i> Editar perfil</a>
+                        <a th:href="@{/calendario-vista}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-calendar-check me-1"></i> Mis citas</a>
+                    </div>
+                    <div class="text-start mt-3">
+                        <h6 class="small-muted mb-2">Preferencias</h6>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="notifEmail" >
+                            <!-- th:checked="${usuario.notificacionesEmail}" -->
+                            <label class="form-check-label small" for="notifEmail">Notificaciones por correo</label>
+                        </div>
+                        <div class="form-check form-switch mt-2">
+                            <input class="form-check-input" type="checkbox" id="notifSms" >
+                            <!-- th:checked="${usuario.notificacionesSms}" -->
+                            <label class="form-check-label small" for="notifSms">Notificaciones por SMS</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-4 p-3 stat-card">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <small class="small-muted">Actividad reciente</small>
+                            <h5 class="mb-0">Últimos 30 días</h5>
+                        </div>
+                        <i class="fas fa-chart-line fa-2x text-primary"></i>
+                    </div>
+                    <hr/>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <small class="small-muted">Citas</small>
+                            <div class="h5" >12</div>
+                            <!-- th:text="${stats.citas}" -->
+                        </div>
+                        <div>
+                            <small class="small-muted">Informes</small>
+                            <div class="h5" >4</div>
+                            <!-- th:text="${stats.informes}" -->
+                        </div>
+                        <div>
+                            <small class="small-muted">Pacientes</small>
+                            <div class="h5" >37</div>
+                            <!-- th:text="${stats.pacientes}" -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h2 class="h4 mb-0">Panel personal</h2>
+                        <small class="text-muted">Resumen y acciones rápidas</small>
+                    </div>
+                    <div>
+                        <a th:href="@{/informes-crear}" class="btn btn-sm btn-success"><i class="fas fa-file-circle-plus me-1"></i> Nuevo informe</a>
+                        <a th:href="@{/paciente-crear}" class="btn btn-sm btn-outline-primary"><i class="fas fa-user-plus me-1"></i> Nuevo paciente</a>
+                    </div>
+                </div>
+
+                <div class="card p-3 mb-4">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="p-3 text-center stat-card">
+                                <div class="small-muted">Próximas citas</div>
+                                <div class="h4" >2</div>
+                                <!-- th:text="${nextAppointments.count}" -->
+                                <small class="d-block">En los próximos 7 días</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 text-center stat-card">
+                                <div class="small-muted">Pendientes</div>
+                                <div class="h4" >3</div>
+                                <!-- th:text="${pendientes}" -->
+                                <small class="d-block">Tareas por revisar</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 text-center stat-card">
+                                <div class="small-muted">Accesos</div>
+                                <div class="h4" >hoy</div>
+                                <!-- th:text="${ultimoAcceso}" -->
+                                <small class="d-block">Último inicio de sesión</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-3 mb-4">
+                    <h5 class="mb-3">Actividad reciente</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li class="py-2 recent-item">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <strong >Informe creado</strong>
+                                    <!-- th:text="${recent[0].title}" -->
+                                    <div class="small text-muted" >Hace 2 días</div>
+                                    <!-- th:text="${recent[0].when}" -->
+                                </div>
+                                <div class="small-muted"> <i class="fas fa-fw fa-file-alt"></i></div>
+                            </div>
+                        </li>
+                        <li class="py-2 recent-item">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <strong >Paciente agregado</strong>
+                                    <!-- th:text="${recent[1].title}" -->
+                                    <div class="small text-muted" >Hace 4 días</div>
+                                    <!-- th:text="${recent[1].when}" -->
+                                </div>
+                                <div class="small-muted"> <i class="fas fa-fw fa-user-plus"></i></div>
+                            </div>
+                        </li>
+                        <li class="py-2 recent-item">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <strong >Cita confirmada</strong>
+                                    <!-- th:text="${recent[2].title}" -->
+                                    <div class="small text-muted" >Hace 6 días</div>
+                                    <!-- th:text="${recent[2].when}" -->
+                                </div>
+                                <div class="small-muted"> <i class="fas fa-fw fa-calendar-check"></i></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card p-3 mb-4">
+                    <h5 class="mb-3">Pacientes recientes</h5>
+                    <div class="row g-3">
+                        <div class="col-6" >
+                            <!-- th:each="p : ${recentPacientes}" -->
+                            <div class="border rounded p-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3 bg-light p-2 rounded-circle" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;">
+                                        <i class="fas fa-user text-secondary"></i>
+                                    </div>
+                                    <div>
+                                        <div >Nombre Paciente</div>
+                                        <!-- th:text="${p.nombre}" -->
+                                        <small class="text-muted" >34 años</small>
+                                        <!-- th:text="${p.edad} + ' años'" -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <hr/>
+        <p>&copy; 2025 SaludConecta</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
