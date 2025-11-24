@@ -51,19 +51,25 @@ public class VistaController {
     }
     
     @GetMapping("/pacientes/crear")
-    public String mostrarFormularioCreacion(Model model) {
+    public String mostrarFormularioCreacion(Principal principal, Model model) {
+        String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
+        model.addAttribute("usuario", usuario);
         model.addAttribute("paciente", new PacienteDTO());
         return "crear-paciente";
     }
 
     @PostMapping("/pacientes/crear")
-    public String procesarCreacion(@ModelAttribute PacienteDTO dto) {
+    public String procesarCreacion(Principal principal, @ModelAttribute PacienteDTO dto, Model model) {
+        String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
+        model.addAttribute("usuario", usuario);
         service.crear(dto);
         return "redirect:/pacientes";
     }
     
     @GetMapping("/pacientes/editar/{id}")
-    public String mostrarFormularioEdicion(@PathVariable Integer id, Model model) {
+    public String mostrarFormularioEdicion(Principal principal, @PathVariable Integer id, Model model) {
+        String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
+        model.addAttribute("usuario", usuario);
         PacienteDTO paciente = service.mostrarPorId(id);
         if (paciente != null) {
             model.addAttribute("paciente", paciente);
@@ -74,14 +80,18 @@ public class VistaController {
     }
     
     @PostMapping("/pacientes/editar/{id}")
-    public String procesarEdicion(@PathVariable Integer id, @ModelAttribute PacienteDTO dto) {
+    public String procesarEdicion(Principal principal, @PathVariable Integer id, @ModelAttribute PacienteDTO dto, Model model) {
+        String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
+        model.addAttribute("usuario", usuario);
         service.modificar(id, dto);
         return "redirect:/pacientes";
     }
     
     
     @GetMapping("/pacientes/eliminar/{id}")
-    public String mostrarConfirmacionEliminacion(@PathVariable Integer id, Model model) {
+    public String mostrarConfirmacionEliminacion(Principal principal, @PathVariable Integer id, Model model) {
+        String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
+        model.addAttribute("usuario", usuario);
         PacienteDTO paciente = service.mostrarPorId(id);
         if (paciente != null) {
             model.addAttribute("paciente", paciente);
@@ -92,16 +102,19 @@ public class VistaController {
     }
 
     @PostMapping("/pacientes/eliminar/{id}")
-    public String procesarEliminacion(@PathVariable Integer id) {
+    public String procesarEliminacion(Principal principal, @PathVariable Integer id, Model model) {
+        String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
+        model.addAttribute("usuario", usuario);
         service.borrar(id);
         return "redirect:/pacientes";
     }
     
     @GetMapping("/pacientes/ver/{id}") 
-    public String pacientesDetalles(@PathVariable Integer id, Model model) {
+    public String pacientesDetalles(Principal principal, @PathVariable Integer id, Model model) {
+        String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
+        model.addAttribute("usuario", usuario);
     	PacienteDTO elemento = service.mostrarDetallesPorId(id);
 		model.addAttribute("paciente", elemento); 
         return "pacientes/pacientes-detalles"; 
-        
     }
 }

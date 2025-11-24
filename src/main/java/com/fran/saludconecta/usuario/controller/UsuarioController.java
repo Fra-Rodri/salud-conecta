@@ -34,7 +34,7 @@ public class UsuarioController {
     @Autowired
     private IUsuarioService usuarioService;
 
-@GetMapping
+	@GetMapping
 	public ResponseEntity<?> listarTodos(HttpServletRequest request) {
 		List<UsuarioDTO> listaUsuarios = usuarioService.mostrarTodos();
 		

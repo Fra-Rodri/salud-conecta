@@ -1,7 +1,6 @@
 package com.fran.saludconecta.controller;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fran.saludconecta.dto.ErrorResponse;
 import com.fran.saludconecta.dto.PacienteDTO;
-import com.fran.saludconecta.dto.PacienteDetallesDTO;
 import com.fran.saludconecta.service.PacienteService;
 
 import jakarta.servlet.http.HttpServletRequest;

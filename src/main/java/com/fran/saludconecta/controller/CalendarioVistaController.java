@@ -1,6 +1,8 @@
 package com.fran.saludconecta.controller;
 
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +17,9 @@ public class CalendarioVistaController {
 	private IInformeService service;
     
     @GetMapping("/calendario-vista") // método que se ejecuta cuando el usuario accede a la URL /pacientes en el navegador. Es una ruta HTTP GET.
-    public String calendarioVista(Model model) {
+    public String calendarioVista(Principal principal, Model model) {
+        String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
+        model.addAttribute("usuario", usuario);
         return "calendario/calendario-ver"; // nombre del template, Le dice a Spring: “Después de ejecutar este método, muestra la plantilla pacientes.html”. No redirige a otra URL, simplemente renderiza el HTML que está en src/main/resources/templates/pacientes.html.
     }
 }
