@@ -1,4 +1,4 @@
-package com.fran.saludconecta.dto;
+package com.fran.saludconecta.paciente.dto;
 
 import java.time.LocalDate;
 import java.util.List;

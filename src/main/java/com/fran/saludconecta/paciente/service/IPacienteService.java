@@ -1,10 +1,10 @@
-package com.fran.saludconecta.service;
+package com.fran.saludconecta.paciente.service;
 
 import java.util.List;
 
-import com.fran.saludconecta.dto.PacienteDTO;
+import com.fran.saludconecta.paciente.dto.PacienteDTO;
 
-public interface PacienteService {
+public interface IPacienteService {
 	List<PacienteDTO> mostrarTodos();
 	PacienteDTO mostrarPorId(Integer id);
 	PacienteDTO mostrarDetallesPorId(Integer id);

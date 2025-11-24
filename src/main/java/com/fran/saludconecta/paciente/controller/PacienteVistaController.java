@@ -1,4 +1,4 @@
-package com.fran.saludconecta.controller;
+package com.fran.saludconecta.paciente.controller;
 
 import java.security.Principal;
 import java.util.List;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.fran.saludconecta.dto.PacienteDTO;
-import com.fran.saludconecta.service.PacienteService;
+import com.fran.saludconecta.paciente.dto.PacienteDTO;
+import com.fran.saludconecta.paciente.service.IPacienteService;
 
 
 @Controller
-public class VistaController {
+public class PacienteVistaController {
 	
 	@Autowired
-	private PacienteService service;
+	private IPacienteService service;
 	//[VistaController] → usa → PacienteService → accede a datos → pasa al modelo → muestra HTML
 		
 	

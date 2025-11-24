@@ -1,4 +1,4 @@
-package com.fran.saludconecta.repository;
+package com.fran.saludconecta.paciente.repository;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.fran.saludconecta.dto.PacienteDTO;
 import com.fran.saludconecta.jooq.tables.Paciente;
 import com.fran.saludconecta.jooq.tables.records.PacienteRecord;
+import com.fran.saludconecta.paciente.dto.PacienteDTO;
 
 @Repository
 public class PacienteRepository {

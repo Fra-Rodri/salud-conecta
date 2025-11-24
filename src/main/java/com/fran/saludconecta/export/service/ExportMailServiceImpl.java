@@ -1,7 +1,8 @@
 package com.fran.saludconecta.export.service;
 
-import com.fran.saludconecta.dto.PacienteDTO;
-import com.fran.saludconecta.service.PacienteService;
+import com.fran.saludconecta.paciente.dto.PacienteDTO;
+import com.fran.saludconecta.paciente.service.IPacienteService;
+
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class ExportMailServiceImpl implements IExportMailService {
     @Autowired
     private JavaMailSender mailSender;
     @Autowired
-    private PacienteService pacienteService;
+    private IPacienteService pacienteService;
 
     private static final Logger logger = LoggerFactory.getLogger(ExportMailServiceImpl.class);
 

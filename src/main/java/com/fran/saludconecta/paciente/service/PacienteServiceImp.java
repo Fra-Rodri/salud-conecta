@@ -1,4 +1,4 @@
-package com.fran.saludconecta.service.impl;
+package com.fran.saludconecta.paciente.service;
 
 import java.util.List;
 
@@ -6,17 +6,16 @@ import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fran.saludconecta.dto.PacienteDTO;
 import com.fran.saludconecta.informe.dto.InformeDTO;
 import com.fran.saludconecta.informe.mapper.InformeMapper;
 import com.fran.saludconecta.informe.repository.InformeRepository;
 import com.fran.saludconecta.jooq.tables.records.PacienteRecord;
-import com.fran.saludconecta.mapper.PacienteMapper;
-import com.fran.saludconecta.repository.PacienteRepository;
-import com.fran.saludconecta.service.PacienteService;
+import com.fran.saludconecta.paciente.dto.PacienteDTO;
+import com.fran.saludconecta.paciente.mapper.PacienteMapper;
+import com.fran.saludconecta.paciente.repository.PacienteRepository;
 
 @Service
-public class PacienteServiceImp implements PacienteService {
+public class PacienteServiceImp implements IPacienteService {
 
 	@Autowired
 	private DSLContext dsl;

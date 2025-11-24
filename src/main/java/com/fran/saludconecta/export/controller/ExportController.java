@@ -1,8 +1,8 @@
 package com.fran.saludconecta.export.controller;
 
-import com.fran.saludconecta.dto.PacienteDTO;
 import com.fran.saludconecta.export.service.IExportMailService;
-import com.fran.saludconecta.service.PacienteService;
+import com.fran.saludconecta.paciente.dto.PacienteDTO;
+import com.fran.saludconecta.paciente.service.IPacienteService;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -25,7 +25,7 @@ import java.time.Period;
 public class ExportController {
 
     @Autowired
-    private PacienteService pacienteService;
+    private IPacienteService pacienteService;
 
     @Autowired
     private IExportMailService exportMailService;

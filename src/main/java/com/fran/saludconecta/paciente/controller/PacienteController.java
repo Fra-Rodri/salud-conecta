@@ -1,4 +1,4 @@
-package com.fran.saludconecta.controller;
+package com.fran.saludconecta.paciente.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fran.saludconecta.dto.ErrorResponse;
-import com.fran.saludconecta.dto.PacienteDTO;
-import com.fran.saludconecta.service.PacienteService;
+import com.fran.saludconecta.paciente.dto.PacienteDTO;
+import com.fran.saludconecta.paciente.service.IPacienteService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -54,7 +54,7 @@ import jakarta.validation.Valid;
 public class PacienteController {
 	
 	@Autowired
-	private PacienteService service; // [PacienteController] → usa → PacienteService → accede a datos → devuelve JSON
+	private IPacienteService service; // [PacienteController] → usa → PacienteService → accede a datos → devuelve JSON
 	
 	@GetMapping
 	public ResponseEntity<?> listarTodos(HttpServletRequest request) {

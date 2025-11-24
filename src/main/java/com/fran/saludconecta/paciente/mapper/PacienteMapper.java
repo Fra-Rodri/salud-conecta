@@ -1,9 +1,10 @@
-package com.fran.saludconecta.mapper;
+package com.fran.saludconecta.paciente.mapper;
 
 import org.jooq.DSLContext;
-import com.fran.saludconecta.dto.PacienteDTO;
+
 import com.fran.saludconecta.jooq.tables.Paciente;
 import com.fran.saludconecta.jooq.tables.records.PacienteRecord;
+import com.fran.saludconecta.paciente.dto.PacienteDTO;
 
 public class PacienteMapper {
 
