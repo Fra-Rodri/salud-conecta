@@ -3,19 +3,13 @@ package com.fran.saludconecta.negocio.service;
 import java.util.List;
 
 import org.jooq.DSLContext;
-import org.jooq.impl.QOM.Neg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fran.saludconecta.jooq.tables.Negocio;
 import com.fran.saludconecta.jooq.tables.records.NegocioRecord;
-import com.fran.saludconecta.jooq.tables.records.UsuarioRecord;
 import com.fran.saludconecta.negocio.dto.NegocioDTO;
 import com.fran.saludconecta.negocio.mapper.NegocioMapper;
 import com.fran.saludconecta.negocio.repository.NegocioRepository;
-import com.fran.saludconecta.usuario.dto.UsuarioDTO;
-import com.fran.saludconecta.usuario.mapper.UsuarioMapper;
-import com.fran.saludconecta.usuario.repository.UsuarioRepository;
 
 @Service
 public class NegocioServiceImpl implements INegocioService {

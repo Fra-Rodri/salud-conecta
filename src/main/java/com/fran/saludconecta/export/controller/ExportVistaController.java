@@ -1,4 +1,4 @@
-package com.fran.saludconecta.controller;
+package com.fran.saludconecta.export.controller;
 
 import java.security.Principal;
 
@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("/exports")
-public class ExportsVistaController {
+public class ExportVistaController {
 
     @GetMapping("/excel")
     public String mostrarVistaExcel(Principal principal, Model model) {

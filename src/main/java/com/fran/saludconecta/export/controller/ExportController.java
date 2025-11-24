@@ -1,8 +1,9 @@
-package com.fran.saludconecta.controller;
+package com.fran.saludconecta.export.controller;
 
 import com.fran.saludconecta.dto.PacienteDTO;
+import com.fran.saludconecta.export.service.IExportMailService;
 import com.fran.saludconecta.service.PacienteService;
-import com.fran.saludconecta.service.ExportMailService;
+
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class ExportController {
     private PacienteService pacienteService;
 
     @Autowired
-    private ExportMailService exportMailService;
+    private IExportMailService exportMailService;
     @PostMapping("/pacientes/email")
     public String enviarPacientesPorEmail(@RequestParam String destinatario, RedirectAttributes redirectAttributes) {
         try {

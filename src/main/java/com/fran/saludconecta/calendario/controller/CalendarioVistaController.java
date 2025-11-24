@@ -1,21 +1,14 @@
-package com.fran.saludconecta.controller;
-
+package com.fran.saludconecta.calendario.controller;
 
 import java.security.Principal;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.fran.saludconecta.informe.service.IInformeService;
-
 @Controller
 public class CalendarioVistaController {
 	
-	@Autowired
-	private IInformeService service;
-    
     @GetMapping("/calendario-vista") // método que se ejecuta cuando el usuario accede a la URL /pacientes en el navegador. Es una ruta HTTP GET.
     public String calendarioVista(Principal principal, Model model) {
         String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado

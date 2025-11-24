@@ -3,7 +3,6 @@ package com.fran.saludconecta.service;
 import java.util.List;
 
 import com.fran.saludconecta.dto.PacienteDTO;
-import com.fran.saludconecta.dto.PacienteDetallesDTO;
 
 public interface PacienteService {
 	List<PacienteDTO> mostrarTodos();

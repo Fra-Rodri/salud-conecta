@@ -1,7 +1,6 @@
-package com.fran.saludconecta.dto;
+package com.fran.saludconecta.calendario.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EventoDTO {
+public class CalendarioEventoDTO {
     private LocalDate fecha;
     private String titulo;
     private String descripcion;

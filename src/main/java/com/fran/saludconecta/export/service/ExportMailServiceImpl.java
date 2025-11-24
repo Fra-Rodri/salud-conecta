@@ -1,7 +1,6 @@
-package com.fran.saludconecta.service.impl;
+package com.fran.saludconecta.export.service;
 
 import com.fran.saludconecta.dto.PacienteDTO;
-import com.fran.saludconecta.service.ExportMailService;
 import com.fran.saludconecta.service.PacienteService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -22,7 +21,7 @@ import java.time.Period;
 import java.util.List;
 
 @Service
-public class ExportMailServiceImpl implements ExportMailService {
+public class ExportMailServiceImpl implements IExportMailService {
 
     @Autowired
     private JavaMailSender mailSender;
