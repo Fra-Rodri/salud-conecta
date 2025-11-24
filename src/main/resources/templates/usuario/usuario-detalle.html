@@ -114,40 +114,40 @@
 				<i class="fas fa-file-lines me-2"></i>Pacientes asignados
 			</h5>
 
-			<!-- <div th:if="${usuario.informes != null and !usuario.informes.isEmpty()}">
+			<div th:if="${usuario.pacientes != null and !usuario.pacientes.isEmpty()}">
 				<table class="table table-bordered table-hover table-striped mt-3">
 					<thead class="text-center">
 						<tr>
 							<th>ID</th>
-							<th>Título</th>
+							<th>Nombre</th>
 							<th>Fecha de creación</th>
 							<th>Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="informe : ${usuario.informes}">
-							<td th:text="${informe.id}"></td>
-							<td th:text="${informe.titulo}">Título del informe</td>
-							<td th:text="${#temporals.format(informe.fechaCreacion, 'dd/MM/yyyy')}"></td>
+						<tr th:each="paciente : ${usuario.pacientes}">
+							<td th:text="${paciente.id}">1</td>
+							<td th:text="${paciente.nombre}">Nombre del paciente</td>
+							<td th:text="${#temporals.format(paciente.fechaCreacion, 'dd/MM/yyyy')}">01/01/2025</td>
 							<td class="text-center">
-								<a th:href="@{'/informes/ver/' + ${informe.id}}" class="btn btn-sm btn-success me-1">
+								<a th:href="@{'/paciente/ver/' + ${paciente.id}}" class="btn btn-sm btn-success me-1">
 									<i class="fas fa-eye"></i> Ver
 								</a>
-								<a th:href="@{'/informes/editar/' + ${informe.id}}" class="btn btn-sm btn-outline-primary me-1">
+								<a th:href="@{'/paciente/editar/' + ${paciente.id}}" class="btn btn-sm btn-outline-primary me-1">
 									<i class="fas fa-edit"></i> Editar
 								</a>
-								<a th:href="@{'/informes/eliminar/' + ${informe.id}}" class="btn btn-sm btn-outline-danger">
+								<a th:href="@{'/paciente/eliminar/' + ${paciente.id}}" class="btn btn-sm btn-outline-danger">
 									<i class="fas fa-trash-alt"></i> Eliminar
 								</a>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-			</div> -->
+			</div>
 
-			<!-- <div th:if="${usuario.informes == null or usuario.informes.isEmpty()}" class="alert alert-info mt-3">
-				<i class="fas fa-info-circle me-2"></i>Este usuario no ha creado informes.
-			</div> -->
+			<div th:if="${usuario.pacientes == null or usuario.pacientes.isEmpty()}" class="alert alert-info mt-3">
+				<i class="fas fa-info-circle me-2"></i>Este usuario no tiene pacientes asignados.
+			</div>
 		</div>
 	</main>
 

@@ -90,7 +90,7 @@
             <i class="fas fa-user-injured fa-2x text-primary mb-2"></i>
             <h5 class="card-title mb-0">Pacientes</h5>
             <p class="display-6 my-2" th:text="${totalPacientes ?: 0}">0</p>
-            <a th:href="@{/pacientes}" class="small">Ver pacientes</a>
+            <a th:href="@{/paciente-lista}" class="small">Ver pacientes</a>
             </div>
         </div>
         </div>
@@ -101,7 +101,7 @@
             <i class="fas fa-users fa-2x text-success mb-2"></i>
             <h5 class="card-title mb-0">Usuarios</h5>
             <p class="display-6 my-2" th:text="${totalUsuarios ?: 0}">0</p>
-            <a th:href="@{/usuarios-lista}" class="small">Ver usuarios</a>
+            <a th:href="@{/usuario-lista}" class="small">Ver usuarios</a>
             </div>
         </div>
         </div>
@@ -136,13 +136,13 @@
             <div class="card-body">
             <h5 class="card-title">Acciones rápidas</h5>
             <div class="d-grid gap-2">
-                <a th:href="@{/usuarios/crear}" class="btn btn-outline-success">
+                <a th:href="@{/usuario/crear}" class="btn btn-outline-success">
                 <i class="fas fa-user-plus"></i> Nuevo usuario
                 </a>
-                <a th:href="@{/pacientes/crear}" class="btn btn-outline-primary">
+                <a th:href="@{/paciente/crear}" class="btn btn-outline-primary">
                 <i class="fas fa-user-injured"></i> Nuevo paciente
                 </a>
-                <a th:href="@{/informes/crear}" class="btn btn-outline-warning">
+                <a th:href="@{/informe/crear}" class="btn btn-outline-warning">
                 <i class="fas fa-file-medical"></i> Nuevo informe
                 </a>
             </div>

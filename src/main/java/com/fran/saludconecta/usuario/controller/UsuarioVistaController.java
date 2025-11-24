@@ -43,7 +43,7 @@ public class UsuarioVistaController {
         String usuario = principal.getName(); 
         model.addAttribute("usuario", usuario);
 
-    	UsuarioDTO dto = service.mostrarPorId(id);
+    	UsuarioDTO dto = service.mostrarDetallesPorId(id);
 		model.addAttribute("usuario", dto); 
         return "usuario/usuario-detalle"; 
     }

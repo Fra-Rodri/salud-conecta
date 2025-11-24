@@ -1,13 +1,19 @@
 package com.fran.saludconecta.usuario.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Repository;
 
+import com.fran.saludconecta.jooq.tables.Paciente;
+import com.fran.saludconecta.jooq.tables.PacienteUsuario;
 import com.fran.saludconecta.jooq.tables.Usuario;
+import com.fran.saludconecta.jooq.tables.records.PacienteUsuarioRecord;
 import com.fran.saludconecta.jooq.tables.records.UsuarioRecord;
+import com.fran.saludconecta.paciente.dto.PacienteDTO;
 import com.fran.saludconecta.usuario.dto.UsuarioDTO;
 
 @Repository
@@ -30,6 +36,27 @@ public class UsuarioRepository {
         return dsl.selectFrom(Usuario.USUARIO)
                   .where(Usuario.USUARIO.EMAIL.eq(email))
                   .fetchOne();
+    }
+
+    public List<PacienteDTO> obtenerTodosPacientesUsuarios(Integer usuarioId) {
+
+        List<PacienteUsuarioRecord> records = dsl.selectFrom(PacienteUsuario.PACIENTE_USUARIO)
+                  .where(PacienteUsuario.PACIENTE_USUARIO.USUARIO_ID.isNotNull())
+                  .and(PacienteUsuario.PACIENTE_USUARIO.USUARIO_ID.eq(usuarioId))
+                  .fetch();
+
+
+        List<PacienteDTO> pacientes = new ArrayList<>(); 
+
+        for (PacienteUsuarioRecord r : records) {
+            PacienteDTO pacienteDto = dsl.selectFrom(Paciente.PACIENTE)
+                                          .where(Paciente.PACIENTE.ID.eq(r.getPacienteId()))
+                                          .fetchOne()
+                                          .into(PacienteDTO.class);
+            pacientes.add(pacienteDto);
+        }
+
+        return pacientes;
     }
     
     public UsuarioRecord guardar(UsuarioRecord guardarRecord) {
