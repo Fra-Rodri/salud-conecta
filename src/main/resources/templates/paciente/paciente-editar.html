@@ -43,7 +43,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item"><a class="nav-link" th:href="@{/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/paciente-lista}"><i class="fas fa-user-injured"></i> Pacientes</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/usuarios-lista}"><i class="fas fa-users"></i> Usuarios</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/usuario-lista}"><i class="fas fa-users"></i> Usuarios</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/informes-lista}"><i class="fas fa-laptop-file"></i> Informes</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/negocio-lista}"><i class="fas fa-building"></i> Negocios</a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/calendario-vista}"><i class="fas fa-calendar-days"></i> Calendario</a></li>
@@ -79,7 +79,8 @@
 
             <div class="mb-3">
                 <label for="dni" class="form-label">DNI</label>
-                <input type="text" th:field="*{dni}" class="form-control" maxlength="20" required>
+                <input type="text" th:field="*{dni}" id="dni" class="form-control" />
+                <div th:if="${#fields.hasErrors('dni')}" class="text-danger" th:errors="*{dni}"></div>
             </div>
 
             <div class="mb-3">

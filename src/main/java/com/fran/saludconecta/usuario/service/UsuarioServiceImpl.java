@@ -31,11 +31,18 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
+	public UsuarioDTO mostrarDetallesPorId(Integer id) {
+		UsuarioDTO dto = mostrarPorId(id);
+		return dto;
+	}
+
+    @Override
     public boolean crear(UsuarioDTO dto) {
         UsuarioRecord guardarRecord = UsuarioMapper.fromDTO(dto, dsl);
         UsuarioRecord comprobarRecord = repository.obtenerPorId(guardarRecord.getId());
+        UsuarioRecord comprobarRecordPorEmail = repository.obtenerPorEmail(guardarRecord.getEmail());
 
-        if (comprobarRecord == null) {
+        if (comprobarRecord == null && comprobarRecordPorEmail == null) {
             repository.guardar(guardarRecord);
             dto.setId(guardarRecord.getId());
             return true;

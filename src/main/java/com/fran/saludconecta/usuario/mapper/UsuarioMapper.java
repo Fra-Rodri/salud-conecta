@@ -1,5 +1,7 @@
 package com.fran.saludconecta.usuario.mapper;
 
+import java.time.LocalDateTime;
+
 import org.jooq.DSLContext;
 
 import com.fran.saludconecta.jooq.tables.Usuario;
@@ -35,8 +37,8 @@ public class UsuarioMapper {
         record.setPassword(dto.getPassword().trim());
         record.setRol(dto.getRolUsuario());
         record.setNegocioId(dto.getNegocioId());
-        record.setFechaCreacion(dto.getFechaCreacion());
-        record.setFechaModificacion(dto.getFechaModificacion());
+        record.setFechaCreacion(LocalDateTime.now());
+        record.setFechaModificacion(LocalDateTime.now());
         return record;
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fran.saludconecta.dto.ErrorResponse;
+import com.fran.saludconecta.paciente.dto.PacienteDTO;
 import com.fran.saludconecta.usuario.dto.UsuarioDTO;
 import com.fran.saludconecta.usuario.service.IUsuarioService;
 
@@ -58,6 +59,17 @@ public class UsuarioController {
 		}
 	}
 	
+	@GetMapping("detalles/{id}")
+	public ResponseEntity<?> mostrarDetalles(@PathVariable Integer id, HttpServletRequest request) { 
+		UsuarioDTO detallesDTO = usuarioService.mostrarDetallesPorId(id);
+		
+		if (detallesDTO != null) {
+			return ResponseEntity.ok(detallesDTO);
+		} else {
+			ErrorResponse error = mostrarError(request, HttpStatus.OK, "ID " + id + " no encontrado");
+			return ResponseEntity.status(HttpStatus.OK).body(error);
+		}
+	}
 
 	@PostMapping
 	public ResponseEntity<?> crear (@Valid @RequestBody UsuarioDTO dto, BindingResult result, HttpServletRequest request){ 

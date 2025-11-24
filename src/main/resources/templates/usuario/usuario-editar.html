@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Exportar Excel - SaludConecta</title>
+    <title>Editar Paciente - SaludConecta</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -28,13 +28,6 @@
             margin-top: 50px;
             padding: 10px;
             color: #6c757d;
-        }
-        .export-card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-            padding: 20px;
-            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -62,7 +55,7 @@
                     <i class="fas fa-user-circle fa-lg me-2"></i>
                     <div class="d-flex flex-column">
                         <small class="text-white-50">Usuario activo</small>
-                        <strong th:text="${usuario}">usuario</strong>
+                        <strong th:text="${usuarioActivo}">usuario</strong>
                     </div>
                 </div>
 
@@ -74,49 +67,66 @@
     </nav>
 
     <main class="container mt-5">
-        <h2 class="text-center mb-4">
-            <i class="fas fa-file-excel me-2 text-success"></i>Exportar Datos
+        <h2 class="text-center mb-4 text-primary">
+            <i class="fas fa-user-edit me-2"></i>Editar Usuario
         </h2>
 
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="export-card">
-                    <h3 class="mb-4"><i class="fas fa-user-injured text-primary me-2"></i>Exportar Pacientes</h3>
-                    <p class="text-muted">Genera un archivo Excel con el listado completo de pacientes</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <a th:href="@{/export/pacientes}" class="btn btn-success me-2">
-                                <i class="fas fa-download me-1"></i> Descargar Excel
-                            </a>
-                        </div>
-                        <a th:href="@{/exports/email}" class="btn btn-outline-primary">
-                            <i class="fas fa-envelope me-1"></i> Enviar por Email
-                        </a>
-                    </div>
-                </div>
+        <form th:action="@{'/usuario/editar/' + ${usuario.id}}" th:object="${usuario}" method="post" class="mx-auto" style="max-width: 700px;">
+            <input type="hidden" th:field="*{id}" />
 
-                <div class="export-card">
-                    <h3 class="mb-4"><i class="fas fa-laptop-file text-primary me-2"></i>Exportar Informes</h3>
-                    <p class="text-muted">Genera un archivo Excel con el listado completo de informes</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <a th:href="@{/export/informes}" class="btn btn-success me-2">
-                                <i class="fas fa-download me-1"></i> Descargar Excel
-                            </a>
-                        </div>
-                        <a th:href="@{/exports/email}" class="btn btn-outline-primary">
-                            <i class="fas fa-envelope me-1"></i> Enviar por Email
-                        </a>
-                    </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input id="nombre" type="text" th:field="*{nombre}" class="form-control" maxlength="50" required>
                 </div>
             </div>
-        </div>
+
+           <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" th:field="*{email}" id="email" class="form-control" maxlength="100" required />
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" th:field="*{password}" id="password" class="form-control" maxlength="20" required />
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="roles" class="form-label">Roles</label>
+                <select id="roles" class="form-select" th:field="*{rolUsuario}" multiple>
+                    <option th:each="r : ${T(com.fran.saludconecta.jooq.enums.RolUsuario).values()}" th:value="${r}" th:text="${r.literal}">ROL</option>
+                </select>
+                <div class="form-text">Mantén Ctrl/Cmd para seleccionar varios roles.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="negocioId" class="form-label">Negocio (ID)</label>
+                <input type="number" th:field="*{negocioId}" id="negocioId" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Fecha de creación (no se puede modificar)</label>
+                <input type="text" class="form-control" th:value="${#temporals.format(usuario.fechaCreacion, 'dd/MM/yyyy')}" readonly>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success me-2">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+                <a th:href="@{/usuario-lista}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </form>
     </main>
 
     <footer>
         <hr/>
         <p>&copy; 2025 SaludConecta</p>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

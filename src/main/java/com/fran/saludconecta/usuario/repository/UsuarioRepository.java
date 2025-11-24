@@ -25,6 +25,12 @@ public class UsuarioRepository {
                   .where(Usuario.USUARIO.ID.eq(id))
                   .fetchOne();
     }
+
+    public UsuarioRecord obtenerPorEmail(String email) {
+        return dsl.selectFrom(Usuario.USUARIO)
+                  .where(Usuario.USUARIO.EMAIL.eq(email))
+                  .fetchOne();
+    }
     
     public UsuarioRecord guardar(UsuarioRecord guardarRecord) {
     	UsuarioRecord record = dsl.newRecord(Usuario.USUARIO);

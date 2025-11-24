@@ -131,12 +131,12 @@ public class PacienteVistaController {
 
         // Comprobar existencia: suponiendo que el servicio tiene un método para ello.
         // Si no existe, puedes usar service.mostrarTodos().stream().anyMatch(...)
-        // boolean creado = service.crear(dto); // según tu impl. actual devuelve boolean
-        // if (!creado) {
-        //     // Asumiendo que la comprobación está basada en dni:
-        //     result.rejectValue("dni", "error.dni", "Ya existe un paciente con ese DNI");
-        //     return "paciente/paciente-editar";
-        // }
+        boolean creado = service.crear(dto); // según tu impl. actual devuelve boolean
+        if (!creado) {
+            // Asumiendo que la comprobación está basada en dni:
+            result.rejectValue("dni", "error.dni", "Ya existe un paciente con ese DNI");
+            return "paciente/paciente-editar";
+        }
 
         service.modificar(id, dto);
         return "redirect:/paciente-lista";
