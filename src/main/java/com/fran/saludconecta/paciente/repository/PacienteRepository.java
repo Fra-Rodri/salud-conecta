@@ -25,6 +25,12 @@ public class PacienteRepository {
                   .where(Paciente.PACIENTE.ID.eq(id))
                   .fetchOne();
     }
+
+    public PacienteRecord obtenerPorDni(String dni) {
+        return dsl.selectFrom(Paciente.PACIENTE)
+                  .where(Paciente.PACIENTE.DNI.eq(dni))
+                  .fetchOne();
+    }
     
     public PacienteRecord guardar(PacienteRecord guardarRecord) {
     	PacienteRecord record = dsl.newRecord(Paciente.PACIENTE);

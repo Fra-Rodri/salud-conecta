@@ -38,9 +38,10 @@ public class PacienteServiceImp implements IPacienteService {
 	@Override
 	public boolean crear(PacienteDTO dto) {
 		PacienteRecord guardarRecord = PacienteMapper.fromDTO(dto, dsl);
-		PacienteRecord comprobarRecord = repository.obtenerPorId(guardarRecord.getId());
+		PacienteRecord comprobarRecordPorId = repository.obtenerPorId(guardarRecord.getId());
+		PacienteRecord comprobarRecordPorDni = repository.obtenerPorDni(guardarRecord.getDni());
 
-		if (comprobarRecord == null) {
+		if (comprobarRecordPorId == null && comprobarRecordPorDni == null) {
 			repository.guardar(guardarRecord);
 			dto.setId(guardarRecord.getId());
 			return true;

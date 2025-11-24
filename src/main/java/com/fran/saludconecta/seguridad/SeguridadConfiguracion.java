@@ -1,4 +1,4 @@
-package com.fran.saludconecta.config;
+package com.fran.saludconecta.seguridad;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +8,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration // Indica que esta clase contiene configuración para Spring
 @EnableWebSecurity // Activa Spring Security en la aplicación web
-public class SecurityConfig {
+public class SeguridadConfiguracion {
 
     @Bean // Spring usará este método para construir el filtro de seguridad
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -26,7 +26,7 @@ public class SecurityConfig {
             .formLogin(form -> form
                 // Vista personalizada de login
                 .loginPage("/login")
-                // URL que procesa el formulario de login (debe coincidir con th:action en login2.html)
+                // URL que procesa el formulario de login (debe coincidir con th:action en login.html)
                 .loginProcessingUrl("/login")
                 // Redirección tras login exitoso
                 .defaultSuccessUrl("/inicio", true)
