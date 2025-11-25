@@ -6,12 +6,8 @@ import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fran.saludconecta.informe.dto.InformeDTO;
-import com.fran.saludconecta.informe.mapper.InformeMapper;
-import com.fran.saludconecta.jooq.tables.Paciente;
 import com.fran.saludconecta.jooq.tables.records.UsuarioRecord;
 import com.fran.saludconecta.paciente.dto.PacienteDTO;
-import com.fran.saludconecta.paciente.repository.PacienteRepository;
 import com.fran.saludconecta.usuario.dto.UsuarioDTO;
 import com.fran.saludconecta.usuario.mapper.UsuarioMapper;
 import com.fran.saludconecta.usuario.repository.UsuarioRepository;
@@ -21,11 +17,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Autowired
     private DSLContext dsl;
-
     @Autowired
     private UsuarioRepository repository;
-    @Autowired
-    private PacienteRepository pacienteRepository;
 
     @Override
     public List<UsuarioDTO> mostrarTodos() {
@@ -64,6 +57,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     public UsuarioDTO modificar(Integer id, UsuarioDTO dto) {
         dto.setNombre(dto.getNombre().trim());
         dto.setEmail(dto.getEmail().trim());
+        
         UsuarioRecord record = repository.actualizar(id, dto);
         return UsuarioMapper.toDTO(record);
     }

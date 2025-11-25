@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.fran.saludconecta.paciente.dto.PacienteDTO;
 import com.fran.saludconecta.usuario.dto.UsuarioDTO;
 import com.fran.saludconecta.usuario.service.IUsuarioService;
 
@@ -26,6 +25,7 @@ public class UsuarioVistaController {
 
     @GetMapping("/usuario-perfil/{id}")
     public String mostrarPerfil(Principal principal, @PathVariable Integer id, Model model) {
+       
         // Aquí obtén el nombre del usuario autenticado
         String usuarioActivo = principal.getName(); 
         model.addAttribute("usuarioActivo", usuarioActivo);
@@ -40,7 +40,7 @@ public class UsuarioVistaController {
         
         // Aquí obtén el nombre del usuario autenticado
         String usuarioActivo = principal.getName(); 
-        model.addAttribute("usuario", usuarioActivo);
+        model.addAttribute("usuarioActivo", usuarioActivo);
 
         List<UsuarioDTO> lista = service.mostrarTodos();
         model.addAttribute("usuarios", lista);
@@ -52,7 +52,7 @@ public class UsuarioVistaController {
         
         // Aquí obtén el nombre del usuario autenticado
         String usuarioActivo = principal.getName(); 
-        model.addAttribute("usuario", usuarioActivo);
+        model.addAttribute("usuarioActivo", usuarioActivo);
 
     	UsuarioDTO dto = service.mostrarDetallesPorId(id);
 		model.addAttribute("usuario", dto); 
@@ -64,7 +64,7 @@ public class UsuarioVistaController {
         
         // Aquí obtén el nombre del usuario autenticado
         String usuarioActivo = principal.getName(); 
-        model.addAttribute("usuario", usuarioActivo);
+        model.addAttribute("usuarioActivo", usuarioActivo);
 
         model.addAttribute("usuario", new UsuarioDTO());
         return "usuario/usuario-crear";
@@ -106,6 +106,7 @@ public class UsuarioVistaController {
         if (dto != null) {
             model.addAttribute("usuario", dto);
             return "usuario/usuario-editar";
+
         } else {
             return "redirect:/usuario-lista";
         }
@@ -142,12 +143,13 @@ public class UsuarioVistaController {
         
         // Aquí obtén el nombre del usuario autenticado
         String usuarioActivo = principal.getName(); 
-        model.addAttribute("usuario", usuarioActivo);
+        model.addAttribute("usuarioActivo", usuarioActivo);
         
         UsuarioDTO dto = service.mostrarPorId(id);
         if (dto != null) {
             model.addAttribute("usuario", dto);
             return "usuario/usuario-eliminar-confirmar";
+
         } else {
             return "redirect:/usuario-lista";
         }
@@ -158,7 +160,7 @@ public class UsuarioVistaController {
         
         // Aquí obtén el nombre del usuario autenticado
         String usuarioActivo = principal.getName(); 
-        model.addAttribute("usuario", usuarioActivo);
+        model.addAttribute("usuarioActivo", usuarioActivo);
 
         service.borrar(id);
         return "redirect:/usuario-lista";

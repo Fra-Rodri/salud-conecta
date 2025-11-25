@@ -14,15 +14,21 @@ public class ExportVistaController {
 
     @GetMapping("/excel")
     public String mostrarVistaExcel(Principal principal, Model model) {
-        String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
-        model.addAttribute("usuario", usuario);
+
+        // Aquí obtén el nombre del usuario autenticado
+        String usuarioActivo = principal.getName(); 
+        model.addAttribute("usuarioActivo", usuarioActivo);
+
         return "exports/excel-export";
     }
 
     @GetMapping("/email")
     public String mostrarVistaEmail(Principal principal, Model model) {
-        String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
-        model.addAttribute("usuario", usuario);
+
+        // Aquí obtén el nombre del usuario autenticado
+        String usuarioActivo = principal.getName(); 
+        model.addAttribute("usuarioActivo", usuarioActivo);
+        
         return "exports/email-export";
     }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Listado de Pacientes - SaludConecta</title>
+    <title>Editar Informe - SaludConecta</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -22,13 +22,6 @@
         }
         nav form {
             display: inline;
-        }
-        .table th {
-            background-color: #0d6efd;
-            color: white;
-        }
-        .table td {
-            vertical-align: middle;
         }
         footer {
             text-align: center;
@@ -74,46 +67,70 @@
     </nav>
 
     <main class="container mt-5">
-		<div class="text-end mb-4">
-		    <a th:href="@{/paciente/crear}" class="btn btn-success">
-		        <i class="fas fa-user-plus"></i> Nuevo Paciente
-		    </a>
-		</div>
-        <h2 class="text-center mb-4">
-            <i class="fas fa-user-injured me-2 text-primary"></i>Listado de Pacientes
+        <h2 class="text-center mb-4 text-primary">
+            <i class="fas fa-file-lines me-2"></i>Editar Informe
         </h2>
 
-        <table class="table table-bordered table-hover table-striped">
-            <thead class="text-center">
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>DNI</th>
-                    <th>Fecha de Nacimiento</th>
-                    <th>Alta</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="paciente : ${pacientes}">
-                    <td th:text="${paciente.id}"></td>
-                    <td th:text="${paciente.nombre}"></td>
-                    <td th:text="${paciente.dni}"></td>
-                    <td th:text="${paciente.fechaNacimiento}"></td>
-                    <td th:text="${paciente.alta}"></td>
-                    <td class="text-center">
-						<a th:href="@{'/paciente/ver/' + ${paciente.id}}" class="btn btn-sm btn-success me-1">
-						    <i class="fas fa-eye"></i> Ver
-                        <a th:href="@{'/paciente/editar/' + ${paciente.id}}" class="btn btn-sm btn-outline-primary me-1">
-                            <i class="fas fa-edit"></i> Editar
-                        </a>
-                        <a th:href="@{'/paciente/eliminar/' + ${paciente.id}}" class="btn btn-sm btn-outline-danger">
-                            <i class="fas fa-trash-alt"></i> Eliminar
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <form th:action="@{'/informe/editar/' + ${informe.id}}"
+            th:object="${informe}"
+            method="post"
+            class="mx-auto"
+            style="max-width: 800px;">
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="row">
+                <!-- Usuario asociado -->
+                <div class="col-md-6 mb-3">
+                    <label for="usuarioId" class="form-label">Usuario (ID)</label>
+                    <input type="number" th:field="*{usuarioId}" id="usuarioId" class="form-control" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="nombreUsuario" class="form-label">Nombre de usuario</label>
+                    <input id="nombreUsuario" type="text" th:field="*{nombreUsuario}" class="form-control" maxlength="50" required />
+                    <div th:if="${#fields.hasErrors('nombreUsuario')}" th:errors="*{nombreUsuario}" class="text-danger"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Paciente asociado -->
+                <div class="col-md-6 mb-3">
+                    <label for="pacienteId" class="form-label">Paciente (ID)</label>
+                    <input type="number" th:field="*{pacienteId}" id="pacienteId" class="form-control" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="nombrePaciente" class="form-label">Nombre del paciente</label>
+                    <input id="nombrePaciente" type="text" th:field="*{nombrePaciente}" class="form-control" maxlength="50" required />
+                    <div th:if="${#fields.hasErrors('nombrePaciente')}" th:errors="*{nombrePaciente}" class="text-danger"></div>
+                </div>
+            </div>
+
+            <!-- Contenido del informe (texto grande) -->
+            <div class="mb-3">
+                <label for="contenido" class="form-label">Contenido del informe</label>
+                <textarea id="contenido" th:field="*{contenido}" class="form-control" rows="8"></textarea>
+                <div th:if="${#fields.hasErrors('contenido')}" th:errors="*{contenido}" class="text-danger"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Fecha de creación</label>
+                    <input type="text" class="form-control" th:value="${informe.fechaCreacion != null ? #temporals.format(informe.fechaCreacion, 'dd/MM/yyyy HH:mm') : ''}" readonly />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Última modificación</label>
+                    <input type="text" class="form-control" th:value="${informe.fechaModificacion != null ? #temporals.format(informe.fechaModificacion, 'dd/MM/yyyy HH:mm') : ''}" readonly />
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success me-2">
+                    <i class="fas fa-save"></i> Guardar cambios
+                </button>
+                <a th:href="@{/informe-lista}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </form>
     </main>
 
     <footer>

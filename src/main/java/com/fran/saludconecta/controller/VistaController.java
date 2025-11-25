@@ -29,7 +29,8 @@ public class VistaController {
     @GetMapping("/inicio")
     public String inicio(Principal principal, Model model) {
 
-        String usuarioActivo = principal.getName(); // Aquí obtén el nombre del usuario autenticado
+        // Aquí obtén el nombre del usuario autenticado
+        String usuarioActivo = principal.getName(); 
         model.addAttribute("usuarioActivo", usuarioActivo);
 
         UsuarioDTO usuarioDto = null;

@@ -45,8 +45,10 @@ public class PacienteVistaController {
     
     @GetMapping("/paciente-lista") // método que se ejecuta cuando el usuario accede a la URL /pacientes en el navegador. Es una ruta HTTP GET.
     public String pacientes(Principal principal, Model model) {
-        String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
-        model.addAttribute("usuario", usuario);
+
+        // Aquí obtén el nombre del usuario autenticado
+        String usuarioActivo = principal.getName(); 
+        model.addAttribute("usuarioActivo", usuarioActivo);
 
     	List<PacienteDTO> listaPacientes = service.mostrarTodos();
 		model.addAttribute("pacientes", listaPacientes); // Esto envía la lista al HTML con el nombre "pacientes". En Thymeleaf, puedes acceder a esa lista con ${pacientes}.
@@ -57,8 +59,8 @@ public class PacienteVistaController {
     public String pacientesDetalles(Principal principal, @PathVariable Integer id, Model model) {
         
         // Aquí obtén el nombre del usuario autenticado
-        String usuario = principal.getName(); 
-        model.addAttribute("usuario", usuario);
+        String usuarioActivo = principal.getName(); 
+        model.addAttribute("usuarioActivo", usuarioActivo);
 
     	PacienteDTO elemento = service.mostrarDetallesPorId(id);
 		model.addAttribute("paciente", elemento); 
@@ -69,8 +71,8 @@ public class PacienteVistaController {
     public String mostrarFormularioCreacion(Principal principal, Model model) {
         
         // Aquí obtén el nombre del usuario autenticado
-        String usuario = principal.getName(); 
-        model.addAttribute("usuario", usuario);
+        String usuarioActivo = principal.getName(); 
+        model.addAttribute("usuarioActivo", usuarioActivo);
 
         model.addAttribute("paciente", new PacienteDTO());
         return "paciente/paciente-crear";
@@ -80,8 +82,8 @@ public class PacienteVistaController {
     public String procesarCreacion(Principal principal, @Valid @ModelAttribute("paciente") PacienteDTO dto, BindingResult result, Model model) {
         
         // Aquí obtén el nombre del usuario autenticado
-        String usuario = principal.getName(); 
-        model.addAttribute("usuario", usuario);
+        String usuarioActivo = principal.getName(); 
+        model.addAttribute("usuarioActivo", usuarioActivo);
 
         // Si hay errores de validación estándar (NotBlank, Size, ...)
         if (result.hasErrors()) {
@@ -105,8 +107,8 @@ public class PacienteVistaController {
     public String mostrarFormularioEdicion(Principal principal, @PathVariable Integer id, Model model) {
         
         // Aquí obtén el nombre del usuario autenticado
-        String usuario = principal.getName(); 
-        model.addAttribute("usuario", usuario);
+        String usuarioActivo = principal.getName(); 
+        model.addAttribute("usuarioActivo", usuarioActivo);
 
         PacienteDTO paciente = service.mostrarPorId(id);
         if (paciente != null) {
@@ -121,8 +123,8 @@ public class PacienteVistaController {
     public String procesarEdicion(Principal principal, @PathVariable Integer id, @Valid @ModelAttribute("paciente") PacienteDTO dto, BindingResult result, Model model) {
         
         // Aquí obtén el nombre del usuario autenticado
-        String usuario = principal.getName(); 
-        model.addAttribute("usuario", usuario);
+        String usuarioActivo = principal.getName(); 
+        model.addAttribute("usuarioActivo", usuarioActivo);
 
         // Si hay errores de validación estándar (NotBlank, Size, ...)
         if (result.hasErrors()) {
@@ -146,9 +148,9 @@ public class PacienteVistaController {
     @GetMapping("/paciente/eliminar/{id}")
     public String mostrarConfirmacionEliminacion(Principal principal, @PathVariable Integer id, Model model) {
         
-         // Aquí obtén el nombre del usuario autenticado
-        String usuario = principal.getName();
-        model.addAttribute("usuario", usuario);
+        // Aquí obtén el nombre del usuario autenticado
+        String usuarioActivo = principal.getName(); 
+        model.addAttribute("usuarioActivo", usuarioActivo);
         
         PacienteDTO paciente = service.mostrarPorId(id);
         if (paciente != null) {
@@ -163,8 +165,8 @@ public class PacienteVistaController {
     public String procesarEliminacion(Principal principal, @PathVariable Integer id, Model model) {
         
         // Aquí obtén el nombre del usuario autenticado
-        String usuario = principal.getName(); 
-        model.addAttribute("usuario", usuario);
+        String usuarioActivo = principal.getName(); 
+        model.addAttribute("usuarioActivo", usuarioActivo);
 
         service.borrar(id);
         return "redirect:/paciente-lista";

@@ -33,5 +33,4 @@ public class InformeDTO {
 	
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaModificacion;
-
 }

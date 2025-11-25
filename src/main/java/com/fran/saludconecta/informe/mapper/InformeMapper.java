@@ -1,5 +1,7 @@
 package com.fran.saludconecta.informe.mapper;
 
+import java.time.LocalDateTime;
+
 import org.jooq.DSLContext;
 
 import com.fran.saludconecta.informe.dto.InformeDTO;
@@ -35,8 +37,8 @@ public static InformeDTO toDTO(InformeRecord record) {
 	    record.setPacienteId(dto.getPacienteId());
 	    record.setNombrePaciente(dto.getNombrePaciente().trim());
 	    record.setContenido(dto.getContenido().trim());
-	    record.setFechaCreacion(dto.getFechaCreacion());
-	    record.setFechaModificacion(dto.getFechaModificacion());
+	    record.setFechaCreacion(LocalDateTime.now());
+	    record.setFechaModificacion(LocalDateTime.now());
 		return record;
 	}
 }
