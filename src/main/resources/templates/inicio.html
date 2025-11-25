@@ -69,7 +69,7 @@
    <main class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-        <h1 class="h3 mb-0">¡Bienvenido, <span th:text="${usuario}">Usuario</span>!</h1>
+        <h1 class="h3 mb-0">¡Bienvenido, <span th:text="${usuarioActivo}">Usuario</span>!</h1>
         <small class="text-muted">Accede rápido a las secciones principales o revisa lo más reciente.</small>
         </div>
         <div> 
@@ -117,10 +117,10 @@
         <div class="col-sm-6 col-md-3">
         <div class="card shadow-sm">
             <div class="card-body text-center">
-            <i class="fas fa-calendar-days fa-2x text-danger mb-2"></i>
-            <h5 class="card-title mb-0">Calendario</h5>
-            <p class="display-6 my-2" th:text="${proximasCitas ?: 0}">0</p>
-            <a th:href="@{/calendario-vista}" class="small">Ver calendario</a>
+            <i class="fas fa-building fa-2x text-warning mb-2"></i>
+            <h5 class="card-title mb-0">Negocios</h5>
+            <p class="display-6 my-2" th:text="${totalNegocios ?: 0}">0</p>
+            <a th:href="@{/negocio-lista}" class="small">Ver negocios</a>
             </div>
         </div>
         </div>
@@ -147,13 +147,24 @@
         </div>
         </div>
 
+        <div class="col-sm-6 col-md-3">
+        <div class="card shadow-sm">
+            <div class="card-body text-center">
+            <i class="fas fa-calendar-days fa-2x text-danger mb-2"></i>
+            <h5 class="card-title mb-0">Calendario</h5>
+            <p class="display-6 my-2" th:text="${proximasCitas ?: 0}">0</p>
+            <a th:href="@{/calendario-vista}" class="small">Ver calendario</a>
+            </div>
+        </div>
+        </div>
+
         <div class="col-lg-6 mb-3">
         <div class="card h-100">
             <div class="card-body">
             <h5 class="card-title">Recientes</h5>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item" th:each="p : ${recentPacientes}" th:text="${p.nombre} + ' — ' + ${#temporals.format(p.fechaCreacion, 'dd/MM/yyyy')}">Paciente ejemplo</li>
-                <li class="list-group-item" th:if="${#lists.isEmpty(recentPacientes)}">No hay pacientes recientes</li>
+                <li class="list-group-item" th:each="c : ${citasHoy}" th:text="${c.nombre} + ' — ' + ${#temporals.format(c.fechaCreacion, 'dd/MM/yyyy')}">Cita ejemplo</li>
+                <li class="list-group-item" th:if="${#lists.isEmpty(citasHoy)}">No hay citas hoy</li>
             </ul>
             </div>
         </div>

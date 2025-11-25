@@ -9,6 +9,7 @@ public interface IPacienteService {
 	PacienteDTO mostrarPorId(Integer id);
 	PacienteDTO mostrarDetallesPorId(Integer id);
 	boolean crear(PacienteDTO dto);
+	boolean comprobarCrear(PacienteDTO dto);
 	PacienteDTO modificar(Integer id, PacienteDTO dto);
 	boolean borrar(Integer id);
 }

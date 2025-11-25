@@ -46,6 +46,15 @@ public class NegocioServiceImpl implements INegocioService {
     }
 
     @Override
+    public boolean comprobarCrear(NegocioDTO dto) {
+        NegocioRecord guardarRecord = NegocioMapper.fromDTO(dto, dsl);
+        NegocioRecord comprobarRecord = repository.obtenerPorId(guardarRecord.getId());
+        NegocioRecord comprobarRecordPorNombre = repository.obtenerPorNombre(guardarRecord.getNombre());
+
+        return comprobarRecord == null && comprobarRecordPorNombre == null;
+    }
+
+    @Override
     public NegocioDTO modificar(Integer id, NegocioDTO dto) {
         dto.setNombre(dto.getNombre().trim());
         dto.setDireccion(dto.getDireccion().trim());

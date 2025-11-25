@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 
 import com.fran.saludconecta.negocio.dto.NegocioDTO;
 import com.fran.saludconecta.negocio.service.INegocioService;
-import com.fran.saludconecta.usuario.dto.UsuarioDTO;
 
 import jakarta.validation.Valid;
 
@@ -118,7 +117,7 @@ public class NegocioVistaController {
 
         // Comprobar existencia: suponiendo que el servicio tiene un método para ello.
         // Si no existe, puedes usar service.mostrarTodos().stream().anyMatch(...)
-        boolean creado = service.crear(dto); // según tu impl. actual devuelve boolean
+        boolean creado = service.comprobarCrear(dto); // según tu impl. actual devuelve boolean
         if (!creado) {
             // Asumiendo que la comprobación está basada en nombre:
             result.rejectValue("nombre", "error.nombre", "Ya existe un negocio con ese nombre");

@@ -12,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fran.saludconecta.dto.ErrorResponse;
-import com.fran.saludconecta.paciente.dto.PacienteDTO;
 import com.fran.saludconecta.usuario.dto.UsuarioDTO;
 import com.fran.saludconecta.usuario.service.IUsuarioService;
 

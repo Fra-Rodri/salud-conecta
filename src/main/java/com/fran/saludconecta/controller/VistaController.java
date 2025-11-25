@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.fran.saludconecta.informe.service.IInformeService;
+import com.fran.saludconecta.negocio.service.INegocioService;
+import com.fran.saludconecta.paciente.service.IPacienteService;
 import com.fran.saludconecta.usuario.dto.UsuarioDTO;
 import com.fran.saludconecta.usuario.service.IUsuarioService;
 
@@ -14,7 +17,16 @@ import com.fran.saludconecta.usuario.service.IUsuarioService;
 public class VistaController {
 
     @Autowired
-    private IUsuarioService service;
+    private IUsuarioService usuarioService;
+
+    @Autowired
+    private IPacienteService pacienteService;
+
+    @Autowired
+    private IInformeService informeService;
+
+    @Autowired
+    private INegocioService negocioService;
 
     @GetMapping("/")
     public String redirigirAlLogin() {
@@ -33,23 +45,30 @@ public class VistaController {
         String usuarioActivo = principal.getName(); 
         model.addAttribute("usuarioActivo", usuarioActivo);
 
+        // Intenta obtener el DTO completo del usuario activo para mostrar más detalles en el perfil
         UsuarioDTO usuarioDto = null;
         try {
-            usuarioDto = service.mostrarTodos().stream()
+            usuarioDto = usuarioService.mostrarTodos().stream()
                     .filter(u -> usuarioActivo.equals(u.getNombre()))
                     .findFirst()
                     .orElse(null);
         } catch (Exception e) {
             usuarioDto = null;
         }
+        model.addAttribute("usuario", usuarioDto);
 
-        if (usuarioDto != null) {
-            model.addAttribute("usuario", usuarioDto);
-        } else {
-            // fallback: si no encontramos DTO, ponemos el nombre/email para renderizar al menos el nombre
-            model.addAttribute("usuario", usuarioActivo);
-        }
+        // Calculos rápidos para el dashboard
+        Integer totalUsuarios = usuarioService.mostrarTodos().size();
+        model.addAttribute("totalUsuarios", totalUsuarios);
 
+        Integer totalNegocios = negocioService.mostrarTodos().size();
+        model.addAttribute("totalNegocios", totalNegocios);
+
+        Integer totalPacientes = pacienteService.mostrarTodos().size();
+        model.addAttribute("totalPacientes", totalPacientes);
+
+        Integer totalInformes = informeService.mostrarTodos().size();
+        model.addAttribute("totalInformes", totalInformes);
 
         return "inicio";
     }

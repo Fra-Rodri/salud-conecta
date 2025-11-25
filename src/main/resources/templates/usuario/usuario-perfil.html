@@ -55,7 +55,7 @@
                     <i class="fas fa-user-circle fa-lg me-2"></i>
                     <div class="d-flex flex-column">
                         <small class="text-white-50">Usuario activo</small>
-                        <strong th:text="${usuarioActivo}">usuario</strong>
+                        <strong th:text="${usuario.nombre}">usuario</strong>
                     </div>
                 </div>
 
@@ -73,15 +73,14 @@
                     <div class="d-flex justify-content-center mb-3">
                         <div class="profile-avatar" aria-hidden="true"><i class="fas fa-user"></i></div>
                     </div>
-                    <h3 class="h5 mb-0" th:text="${usuario}">Nombre Usuario</h3>
-                    <p class="small-muted mb-2" th:text="${usuarioRole}">Rol • Centro</p>
+                    <h3 class="h5 mb-0" th:text="${usuario.nombre}">Nombre Usuario</h3>
+                    <p class="small-muted mb-2" th:text="${usuario.rolUsuario}">Rol • Centro</p>
                     <div class="mb-3">
                         <small class="d-block small-muted" th:text="${usuario.email}">usuario@ejemplo.com</small>
-                        <small class="d-block small-muted" >+34 600 000 000</small> 
-                        <!-- th:text="${usuario.telefono}" -->
+                        <small class="d-block small-muted" th:text="${nombreNegocio}"  >Centro de trabajo</small> 
                     </div>
                     <div class="action-btns mb-3">
-                        <a th:href="@{/usuario-editar}" class="btn btn-sm btn-primary"><i class="fas fa-pen me-1"></i> Editar perfil</a>
+                        <a th:href="@{'/usuario/editar/' + ${usuario.id}}" class="btn btn-sm btn-primary"><i class="fas fa-pen me-1"></i> Editar perfil</a>
                         <a th:href="@{/calendario-vista}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-calendar-check me-1"></i> Mis citas</a>
                     </div>
                     <div class="text-start mt-3">

@@ -24,24 +24,6 @@ public class PacienteVistaController {
 	@Autowired
 	private IPacienteService service;
 	//[VistaController] → usa → PacienteService → accede a datos → pasa al modelo → muestra HTML
-		
-	
-	// @GetMapping("/")
-    // public String redirigirAlLogin() {
-    //     return "redirect:/login";
-    // }
-	
-	// @GetMapping("/login")
-	// public String login() {
-    //     return "login";
-    // }
-
-    // @GetMapping("/inicio")
-    // public String inicio(Principal principal, Model model) {
-    //     String usuario = principal.getName(); // Aquí obtén el nombre del usuario autenticado
-    //     model.addAttribute("usuario", usuario);
-    //     return "inicio";
-    // }
     
     @GetMapping("/paciente-lista") // método que se ejecuta cuando el usuario accede a la URL /pacientes en el navegador. Es una ruta HTTP GET.
     public String pacientes(Principal principal, Model model) {
@@ -133,7 +115,7 @@ public class PacienteVistaController {
 
         // Comprobar existencia: suponiendo que el servicio tiene un método para ello.
         // Si no existe, puedes usar service.mostrarTodos().stream().anyMatch(...)
-        boolean creado = service.crear(dto); // según tu impl. actual devuelve boolean
+        boolean creado = service.comprobarCrear(dto); // según tu impl. actual devuelve boolean
         if (!creado) {
             // Asumiendo que la comprobación está basada en dni:
             result.rejectValue("dni", "error.dni", "Ya existe un paciente con ese DNI");

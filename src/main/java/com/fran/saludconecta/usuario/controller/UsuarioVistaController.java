@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.fran.saludconecta.negocio.service.INegocioService;
 import com.fran.saludconecta.usuario.dto.UsuarioDTO;
 import com.fran.saludconecta.usuario.service.IUsuarioService;
 
@@ -22,6 +24,8 @@ public class UsuarioVistaController {
 
     @Autowired
     private IUsuarioService service;
+    @Autowired
+    private INegocioService negocioService;
 
     @GetMapping("/usuario-perfil/{id}")
     public String mostrarPerfil(Principal principal, @PathVariable Integer id, Model model) {
@@ -30,8 +34,22 @@ public class UsuarioVistaController {
         String usuarioActivo = principal.getName(); 
         model.addAttribute("usuarioActivo", usuarioActivo);
 
-    	UsuarioDTO dto = service.mostrarDetallesPorId(id);
-		model.addAttribute("usuario", dto); 
+        // Intenta obtener el DTO completo del usuario activo para mostrar más detalles en el perfil
+        UsuarioDTO usuarioDto = null;
+        try {
+            usuarioDto = service.mostrarTodos().stream()
+                    .filter(u -> usuarioActivo.equals(u.getNombre()))
+                    .findFirst()
+                    .orElse(null);
+        } catch (Exception e) {
+            usuarioDto = null;
+        }
+        model.addAttribute("usuario", usuarioDto);
+
+        // Añade atributos específicos para el perfil
+        String nombreNegocio = negocioService.mostrarPorId(usuarioDto.getNegocioId()).getNombre();
+        model.addAttribute("nombreNegocio", nombreNegocio);
+
         return "usuario/usuario-perfil";
     }
 
@@ -126,14 +144,21 @@ public class UsuarioVistaController {
 
         // Comprobar existencia: suponiendo que el servicio tiene un método para ello.
         // Si no existe, puedes usar service.mostrarTodos().stream().anyMatch(...)
-        boolean creado = service.crear(dto); // según tu impl. actual devuelve boolean
+        boolean creado = service.comprobarCrear(dto); // según tu impl. actual devuelve boolean
         if (!creado) {
             // Asumiendo que la comprobación está basada en email:
             result.rejectValue("email", "error.email", "Ya existe un usuario con ese email");
             return "usuario/usuario-editar";
         }
 
-        service.modificar(id, dto);
+        try {
+            service.modificar(id, dto);
+        } catch (DataIntegrityViolationException ex) {
+            // Podría ser DuplicateKeyException por UNIQUE(email)
+            result.rejectValue("email", "error.email", "Ese email ya está en uso");
+            return "usuario/usuario-editar";
+        }
+
         return "redirect:/usuario-lista";
     }
     
