@@ -15,8 +15,8 @@ spring:
 # Usuario para el login
   # security:
   #   user:
-  #     name: Laura Martínez
-  #     password: pass123
+  #     name: user
+  #     password: user
 
 # Configuración del SMTP para el envío de correos
   mail:

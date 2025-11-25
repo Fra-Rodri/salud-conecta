@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.fran.saludconecta.cita.service.ICitaService;
 import com.fran.saludconecta.informe.service.IInformeService;
 import com.fran.saludconecta.negocio.service.INegocioService;
 import com.fran.saludconecta.paciente.service.IPacienteService;
@@ -28,6 +29,9 @@ public class VistaController {
     @Autowired
     private INegocioService negocioService;
 
+    @Autowired
+    private ICitaService citaService;
+
     @GetMapping("/")
     public String redirigirAlLogin() {
         return "redirect:/login";
@@ -40,6 +44,10 @@ public class VistaController {
 
     @GetMapping("/inicio")
     public String inicio(Principal principal, Model model) {
+
+        // Integer usuarioId = getUsuarioIdFromPrincipal(principal);
+
+
 
         // Aquí obtén el nombre del usuario autenticado
         String usuarioActivo = principal.getName(); 
@@ -69,6 +77,15 @@ public class VistaController {
 
         Integer totalInformes = informeService.mostrarTodos().size();
         model.addAttribute("totalInformes", totalInformes);
+
+
+        // Datos de citas para el usuario activo
+
+        var proximas = citaService.proximasPorUsuario(usuarioDto.getId(), 5);    // método sugerido en service
+        var citasHoy = citaService.citasHoyPorUsuario(usuarioDto.getId());      // método sugerido
+
+        model.addAttribute("proximasCitas", proximas.size());
+        model.addAttribute("citasHoy", citasHoy); // lista de citas para iterar
 
         return "inicio";
     }
