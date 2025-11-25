@@ -1,5 +1,7 @@
 package com.fran.saludconecta.negocio.mapper;
 
+import java.time.LocalDateTime;
+
 import org.jooq.DSLContext;
 
 import com.fran.saludconecta.jooq.tables.Negocio;
@@ -31,8 +33,8 @@ public class NegocioMapper {
         record.setNombre(dto.getNombre().trim());
         record.setDireccion(dto.getDireccion().trim());
         record.setTelefono(dto.getTelefono().trim());
-        record.setFechaCreacion(dto.getFechaCreacion());
-        record.setFechaModificacion(dto.getFechaModificacion());
+        record.setFechaCreacion(LocalDateTime.now());
+        record.setFechaModificacion(LocalDateTime.now());
         return record;
     }
 }

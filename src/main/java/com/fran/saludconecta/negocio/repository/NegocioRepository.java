@@ -25,6 +25,12 @@ public class NegocioRepository {
                   .where(Negocio.NEGOCIO.ID.eq(id))
                   .fetchOne();
     }
+
+    public NegocioRecord obtenerPorNombre(String nombre) {
+        return dsl.selectFrom(Negocio.NEGOCIO)
+                  .where(Negocio.NEGOCIO.NOMBRE.eq(nombre))
+                  .fetchOne();
+    }
     
     public NegocioRecord guardar(NegocioRecord guardarRecord) {
     	NegocioRecord record = dsl.newRecord(Negocio.NEGOCIO);

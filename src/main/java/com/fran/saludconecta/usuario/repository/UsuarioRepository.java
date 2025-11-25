@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Repository;
 
 import com.fran.saludconecta.jooq.tables.Paciente;

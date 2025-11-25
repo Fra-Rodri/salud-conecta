@@ -33,8 +33,10 @@ public class NegocioServiceImpl implements INegocioService {
     public boolean crear(NegocioDTO dto) {
         NegocioRecord guardarRecord = NegocioMapper.fromDTO(dto, dsl);
         NegocioRecord comprobarRecord = repository.obtenerPorId(guardarRecord.getId());
+        NegocioRecord comprobarRecordPorNombre = repository.obtenerPorNombre(guardarRecord.getNombre());
 
-        if (comprobarRecord == null) {
+
+        if (comprobarRecord == null && comprobarRecordPorNombre == null) {
             repository.guardar(guardarRecord);
             dto.setId(guardarRecord.getId());
             return true;
