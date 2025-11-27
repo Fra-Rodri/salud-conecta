@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Archivos de configuración con datos sensibles ###
+# application-dev.yml contiene credenciales locales y NO debe subirse al repo
+src/main/resources/application-dev.yml

@@ -21,8 +21,6 @@ import com.fran.saludconecta.jooq.enums.EstadoCita;
 import com.fran.saludconecta.paciente.service.IPacienteService;
 import com.fran.saludconecta.usuario.service.IUsuarioService;
 
-import jakarta.validation.Valid;
-
 @Controller
 public class CitaVistaController {
 

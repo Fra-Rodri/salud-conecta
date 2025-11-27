@@ -20,8 +20,6 @@ import com.fran.saludconecta.cita.dto.CitaDTO;
 import com.fran.saludconecta.cita.service.ICitaService;
 import com.fran.saludconecta.usuario.service.IUsuarioService;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
 /**
  * Controller para la vista del calendario.
  * Construye la cuadrícula del mes actual y agrega las citas del usuario
