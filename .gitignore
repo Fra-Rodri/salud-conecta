@@ -30,8 +30,19 @@ build/
 !**/src/test/**/build/
 
 ### VS Code ###
+# Excluir .vscode/ completo previene subir configs personales
+# Si quieres compartir launch.json y extensions.json, comenta esta línea
+# y añade solo: .vscode/settings.json
 .vscode/
 
 ### Archivos de configuración con datos sensibles ###
-# application-dev.yml contiene credenciales locales y NO debe subirse al repo
+# Estos archivos contienen credenciales y NO deben subirse nunca
 src/main/resources/application-dev.yml
+src/main/resources/application-local.yml
+src/main/resources/application-prod.yml
+.env
+.env.local
+.env.*.local
+
+### Docker ###
+docker-compose.override.yml
